@@ -2,7 +2,7 @@
 import '../globals.css'
 import Header from '../components/Header'
 import { usePathname } from 'next/navigation';
-import TickerComponent from '../components/TicketComponent';
+ import TickerComponent from '../components/TicketComponent';
 import Footer from '../components/FooterComponent';
 
 

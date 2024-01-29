@@ -1,5 +1,7 @@
 "use client";
+
 // components/NavBar.js
+
 import { useState , Fragment } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -62,7 +64,7 @@ const NavBar = () => {
       </li>
       <li>
         <Link
-          href="/ContactUs"
+          href="/contactUs"
           className={`cursor-pointer inline-flex items-center border-b-2 ${
             isActive("/contactUs") ? "border-green-500" : "border-transparent"
           } px-1 pt-1 text-sm font-medium ${
