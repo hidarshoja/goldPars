@@ -1,0 +1,40 @@
+
+:root {
+  --animationDistance: -100px;
+  --animationDuration: 12s;
+}
+
+.wrapper {
+  width: 100%;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 14px !important;
+ 
+  }
+
+
+.inner {
+  animation-duration: var(--animationDuration);
+  animation-timing-function: linear;
+}
+
+.inner.moving {
+  animation-name: moveticker;
+}
+
+.element {
+  display: inline-block;
+  padding: 0 20px;
+  
+}
+
+@keyframes moveticker {
+  0% {
+    transform: translateX(0px);
+  }
+  
+  100% {
+    transform: translateX(var(--animationDistance));
+  }
+}
