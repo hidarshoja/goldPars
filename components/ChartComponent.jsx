@@ -1,153 +1,139 @@
+"use client";
+
+import { Line } from "react-chartjs-2";
+
 import {
-    Card,
-    CardBody,
-    CardHeader,
-    Typography,
-  } from "@material-tailwind/react";
-  import Chart from "react-apexcharts";
-  import { Square3Stack3DIcon } from "@heroicons/react/24/outline";
-   const chartConfig = {
-    type: "line",
-    height: 540,
-    series: [
+  Chart,
+  LineElement,
+  CategoryScale, // x axis
+  LinearScale, // y axis
+  PointElement,
+  Legend,
+  Tooltip,
+  Filler,
+} from "chart.js";
+
+Chart.register(
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Legend,
+  Tooltip,
+  Filler
+);
+
+const salesData = [
+  { month: "مهر", sales: 1000000 },
+  { month: "آبان", sales: 1500000 },
+  { month: "آذر", sales: 2000000 },
+  { month: "دی", sales: 1200000 },
+  { month: "بهمن", sales: 1800000 },
+  { month: "اسفند", sales: 2500000 },
+];
+
+export default function ChartComponent() {
+  const data = {
+    labels: salesData.map((data) => data.month),
+    datasets: [
       {
-        name: "Sales",
-        data: [20, 40, 300, 320, 500, 350, 200, 230, 500],
+        label: "فروش",
+        data: salesData.map((data) => data.sales),
+        borderColor: "#cb0c9f",
+        borderWidth: 3,
+        pointBorderColor: "#cb0c9f",
+        pointBorderWidth: 3,
+        tension: 0.5,
+        fill: true,
+        backgroundColor: (context) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+          gradient.addColorStop(0, "#f797e1");
+          gradient.addColorStop(1, "white");
+          return gradient;
+        },
       },
     ],
-    options: {
-      chart: {
-        toolbar: {
-          show: false,
-        },
-      },
-      title: {
-        show: "",
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      colors: ["#ffd700"],
-      stroke: {
-        lineCap: "round",
-        curve: "smooth",
-      },
-      markers: {
-        size: 0,
-      },
-      xaxis: {
-        axisTicks: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
+  };
+
+  const options = {
+    plugins: {
+      legend: {
         labels: {
-          style: {
-            colors: "#ffd700",
-            fontSize: "16px",
-            fontFamily: "vazir",
-            fontWeight: 400,
-          },
-        },
-        categories: [
-          "فروردین",
-          "اردیبهشت",
-          "خرداد",
-          "تیر",
-          "مرداد",
-          "شهریور",
-          "مهر",
-          "آبان",
-          "آذر",
-          "دی",
-          "بهمن",
-          "اسفند"
-        ],
-      },
-      yaxis: {
-        labels: {
-          formatter: function (value) {
-            // Check if the value is not 0 and is a number before formatting
-            if (value !== 0 && !isNaN(value)) {
-              return formatUniqueLabel(value);
-            } else {
-              return "";
-            }
-          },
-          style: {
-            colors: "#ffd700",
-            fontSize: "16px",
-            fontFamily: "inherit",
-            fontWeight: 400,
+          font: {
+            size: 15,
+            family: 'vazir'
           },
         },
       },
-      grid: {
-        show: true,
-        borderColor: "#ffd700",
-        strokeDashArray: 5,
-        xaxis: {
-          lines: {
-            show: true,
+    },
+    responsive: true,
+    scales: {
+      y: {
+        ticks: {
+          font: {
+            size: 12,
+            weight: "bold",
+            family: "vazir",
           },
         },
-        padding: {
-          top: 5,
-          right: 20,
+        title: {
+          display: true,
+          text: "قیمت",
+          padding: {
+            bottom: 10,
+          },
+          font: {
+            size: 14,
+            family: "vazir",
+          },
         },
+        min: 50,
       },
-      fill: {
-        opacity: 0.8,
-      },
-      tooltip: {
-        theme: "dark",
+      x: {
+        ticks: {
+          font: {
+            size: 12,
+            weight: "bold",
+            family: "vazir",
+          },
+        },
+        title: {
+          display: true,
+          text: "شش ماه",
+          padding: {
+            top: 10,
+          },
+          font: {
+            size: 14,
+            family: "vazir",
+          },
+        },
       },
     },
   };
-   
-  export default function ChartComponent() {
-    return (
-      <Card>
-        <CardHeader
-          floated={false}
-          shadow={false}
-          
-          className="flex flex-col gap-4 rounded-none md:flex-row md:items-center bg-color1"
-        >
-          <div className="w-max rounded-lg  p-5 text-white mr-2 bg-color1">
-            <Square3Stack3DIcon className="h-8 w-8 text-yellow-500" />
-          </div>
-          <div>
-           
-            <Typography
-              variant="small"
-              className="max-w-sm text-base font-normal px-3 md:px-0  text-color2 py-3"
-            >
-              با مشاهده نوسان قیمت یک ماه طلا می تواین در تصیم گیری شما کمک کنیم 
-            </Typography>
-          </div>
-        </CardHeader>
-        <CardBody className="px-2 pb-0" style={{ backgroundColor: "#004225" }}>
-          <Chart {...chartConfig} />
-        </CardBody>
-      </Card>
-    );
-  }
+  const containerStyle = {
+    width: "100%", // Set the width to 100%
+    height: "100%",
+    padding: "20px",
+    cursor: "pointer",
+  };
 
-  let counter = 100; // Set the initial counter value
-  const labelMap = {};
-  
-  function formatUniqueLabel(value) {
-    const formattedValue = (value / 1);
-    if (!labelMap[formattedValue]) {
-      labelMap[formattedValue] = true;
-      return counter + "M";
-    } else {
-      counter -= 100; // Decrease by 100 each time
-      if (counter < 2300) {
-        counter = 2900; // Reset the counter when it goes below the minimum
-      }
-      return counter + "M";
-    }
-  }
+  return (
+    <div className="w-full min-h-[500px] md:min-h-96  flex flex-col md:flex-row gap-5 items-center justify-between">
+      <div className="w-full md:w-1/3">
+        <h1 className="font-bold text-xl text-color2 text-center mt-10">
+          نمودار نوسان قیمت شش ماهه
+        </h1>
+        <p className="text-center py-5 text-color2">
+          نوسان قیمت شش ماه سال جاری که براساس بازار ایران طراحی شده و به روز می
+          باشد.
+        </p>
+      </div>
+
+      <div className="w-full md:w-2/3">
+        <Line data={data} options={options} style={containerStyle}></Line>
+      </div>
+    </div>
+  );
+}

@@ -1,7 +1,5 @@
-"use client"
-  import React, { useState, useEffect, useRef, useCallback } from "react";
-  import "../ticker.css"
-  
+
+import Marquee from "react-fast-marquee";
   const newsItems = [
     {id:1, key: "قیمت طلا امروز" , price :"2,300,000" },
     {id:2, key: "قیمت طلا فروش " , price :"2,300,000" },
@@ -15,80 +13,29 @@
     {id:10,  key: "قیمت طلا  جهانی " , price :"9,320,000" },
   ];
   
-  const Element = (props) => {
-    const { title } = props;
-    return <div className="element" style={{color:"#004225"}}>{title}</div>;
-  };
+
   
-  const TickerComponent = () => {
-    const [items, setItems] = useState(newsItems);
-    const [animationRunning, setAnimationRunning] = useState(false);
-    const wrapperRef = useRef();
-    const indexRef = useRef();
-  
-    const handleRefUpdate = useCallback(
-      (node) => {
-        if (node !== null && items.length > 0) {
-          indexRef.current = node.firstChild;
-          wrapperRef.current = node;
-          document.documentElement.style.setProperty(
-            "--animationDistance",
-            `${0 - indexRef.current.offsetWidth}px`
-          );
-          document.documentElement.style.setProperty(
-            "--animationDuration",
-            `${Math.round(indexRef.current.offsetWidth / 33)}s`
-          );
-          wrapperRef.current.classList.add("moving");
-        }
-      },
-      [items]
-    );
-  
-    const handleLoop = () => {
-      wrapperRef.current.classList.remove("moving");
-      wrapperRef.current.style.animation = "none";
-      const t = wrapperRef.current.offsetHeight; 
-      wrapperRef.current.style.animation = null;
-      shiftNext([...items]);
-    };
-  
-    const shiftNext = (copy) => {
-      const firstitem = copy.shift();
-      copy.splice(copy.length, 0, firstitem);
-      setItems(copy);
-    };
-  
-    const handleAnimationEnd = () => {
-      handleLoop();
-    };
-  
-    useEffect(() => {
-      handleLoop();
-    }, []);
-  
-    return (
-      <div className="wrapper">
-        <div
-          className="inner"
-          ref={handleRefUpdate}
-          onAnimationEnd={handleAnimationEnd}
-        >
-          {items.map((obj, index) => (
-            <Element  title={`${obj.key} : ${obj.price}`} key={obj.key + index}  />
+
+export default function TicketComponent() {
+  return (
+    <div className="mt-[80px] py-3 bg-yellow-500 ">
+        <Marquee autoFill={true}>
+          {newsItems.map(news=>(
+            <p key={news?.id} className="px-2">
+              <span>
+              {news?.key}
+              </span>
+              <span>
+              {news?.price}
+
+              </span>
+            </p>
           ))}
-        </div>
-      </div>
-    );
-  };
-  
-  export default function App() {
-    return (
-      <div className=" h-12 mt-[80px] flex items-center justify-center w-full bg-color4">
-        <TickerComponent />
-      </div>
-    );
-  }
+        </Marquee>
+    </div>
+  )
+}
+
   
   
   

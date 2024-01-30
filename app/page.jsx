@@ -1,7 +1,7 @@
 import HeaderHome from "@/components/HeaderHome";
 import CarouselComponent from "@/components/CarouselComponent";
 import WhyMeComponent from "@/components/WhyMeComponent";
-// import ChartComponent from "@/components/ChartComponent";
+ import ChartComponent from "@/components/ChartComponent";
 import ProductsComponent from "@/components/ProductsComponent";
 
 export default function Home() {
@@ -31,7 +31,9 @@ export default function Home() {
         <p className="text-center text-color2 px-2 md:px-0 py-10 text-2xl font-semibold">
               نمودار نوسان قیمت طلا
         </p>
-         {/* <ChartComponent />  */}
+        <div className="w-ful flex items-center justify-center">
+           <ChartComponent />
+           </div>
         </div>
       </div>
     </main>
