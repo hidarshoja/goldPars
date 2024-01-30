@@ -4,7 +4,7 @@ export default function About() {
   return (
     <div className='bg-color1 w-full h-[1000px]  flex items-center justify-center flex-col gap-10' dir='rtl'>
       <h3 className='text-lg md:text-3xl text-color2 font-semibold'>درباره پارس زرگر</h3>
-         <div className='w-full md:w-[80%] border-2 rounded-xl h-[500px] mt-0 md:mt-10 px-6 py-4 shadow-lg shadow-slate-300 flex flex-col items-center justify-around'>
+         <div className='w-full md:w-[80%] border-2 rounded-xl min-h-[500px] mt-0 md:mt-10 px-6 py-4 shadow-lg shadow-slate-300 flex flex-col items-center justify-around'>
              <div className='w-full'>
              <p className='text-color2'>
              علاوه بر مصارف زینتی، طلا از دیرباز به عنوان یک
