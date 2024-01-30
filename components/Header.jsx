@@ -11,7 +11,11 @@ function classNames(...classes) {
 
 export default function Header() {
   return (
-    <Disclosure as="nav" className="bg-[#1b2924] shadow fixed w-full top-0 z-40" dir="rtl">
+    <Disclosure
+      as="nav"
+      className="bg-[#1b2924] shadow fixed w-full top-0 z-40"
+      dir="rtl"
+    >
       {({ open }) => (
         <>
           <div className="mx-auto px-4 sm:px-1 lg:px-8">
@@ -25,25 +29,25 @@ export default function Header() {
                 </div>
               </div>
               <div className="hidden sm:ml-0 sm:flex sm:items-center">
-              <Link href="/login">
-                <button
-                  type="button"
-                  className="flex w-[60px] md:w-[100px] items-center justify-center rounded bg-green-600 px-4 md:px-6 py-2 text-xs text-[#fff] hover:bg-inherit border border-green-700"
-                >
-                  ورود
-                </button>
+                <Link href="/login">
+                  <button
+                    type="button"
+                    className="flex w-[60px] md:w-[100px] items-center justify-center rounded bg-green-600 px-4 md:px-6 py-2 text-xs text-[#fff] hover:bg-inherit border border-green-700"
+                  >
+                    ورود
+                  </button>
                 </Link>
 
                 <Menu as="div" className="relative ml-0">
                   <div className="mr-1">
-                  <Link href="/register">
-                    <button
-                     type="button"
-                    className="flex w-[80px] md:w-[100px] items-center justify-center rounded border border-green-600 px-4 md:px-6 py-2 text-xs text-white hover:bg-green-700"
-                  >
-                     ثبت نام
-                  </button>
-                </Link>
+                    <Link href="/register">
+                      <button
+                        type="button"
+                        className="flex w-[80px] md:w-[100px] items-center justify-center rounded border border-green-600 px-4 md:px-6 py-2 text-xs text-white hover:bg-green-700"
+                      >
+                        ثبت نام
+                      </button>
+                    </Link>
                   </div>
                   <Transition
                     as={Fragment}
@@ -113,63 +117,114 @@ export default function Header() {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 pb-3 pt-2">
-             
               <Disclosure.Button
                 as="a"
-                href="#"
+                href="/"
                 className="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700"
               >
                 خانه
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"
-                href="#"
+                href="/about"
                 className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
               >
                 درباره ما
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"
-                href="#"
+                href="/contactUs"
                 className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
               >
                 تماس با ما
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"
-                href="#"
+                href="/blog"
                 className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
               >
-                خرید
+                بلاگ
               </Disclosure.Button>
               <Disclosure.Button
                 as="a"
-                href="#"
+                href="/faqs"
                 className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
               >
-                فروش
+                سوالات متداول
               </Disclosure.Button>
+              
+              <Disclosure>
+                {({ open }) => (
+                  <>
+                    <Disclosure.Button
+                      as="a"
+                      href="#"
+                      className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                    >
+                       صفحات بیشتر
+                    </Disclosure.Button>
+
+                    {/* زیرمنو */}
+                    <Disclosure.Panel>
+                      <div className="space-y-1">
+                        <Disclosure.Button
+                          as="a"
+                          href="#"
+                          className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                        >
+                          فروش
+                        </Disclosure.Button>
+                        <Disclosure.Button
+                          as="a"
+                          href="/buyPage"
+                          className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                        >
+                          خرید
+                        </Disclosure.Button>
+                        <Disclosure.Button
+                          as="a"
+                          href="/product"
+                          className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                        >
+                          محصولات
+                        </Disclosure.Button>
+                        <Disclosure.Button
+                          as="a"
+                          href="/cart"
+                          className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                        >
+                          سبد خرید
+                        </Disclosure.Button>
+                        <Disclosure.Button
+                          as="a"
+                          href="#"
+                          className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                        >
+                          قیمت حرفه‌ای
+                        </Disclosure.Button>
+                      </div>
+                    </Disclosure.Panel>
+                  </>
+                )}
+              </Disclosure>
             </div>
             <div className="border-t border-gray-200 pb-3 pt-4">
-              <div className="flex items-center px-4">
-              
-              </div>
+              <div className="flex items-center px-4"></div>
               <div className="mt-3 space-y-1">
                 <Disclosure.Button
                   as="a"
-                  href="#"
+                  href="/login"
                   className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                 >
-                  ورود 
+                  ورود
                 </Disclosure.Button>
                 <Disclosure.Button
                   as="a"
-                  href="#"
+                  href="/register"
                   className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                 >
                   ثبت نام
                 </Disclosure.Button>
-               
               </div>
             </div>
           </Disclosure.Panel>
