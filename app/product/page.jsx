@@ -375,7 +375,6 @@ export default function Products() {
   };
   // انتهای اضافه
   const handleSelectChange = (selectedValue) => {
- 
     console.log(selectedValue);
   };
 
@@ -825,19 +824,36 @@ export default function Products() {
                           افزودن به سبد خرید{" "}
                         </button>
                       </div>
-                      <h3 className="text-base font-bold text-color1">
+                      <h3 className="text-base font-bold text-color1 text-center">
                         <span aria-hidden="true" className="absolute inset-0" />
                         {product.name}
                       </h3>
-                      <p className="text-sm text-color2">
+                      <p className="text-sm font-semibold text-color1 text-center">
                         {product.description}
                       </p>
-                      <div className="flex flex-1 flex-col justify-end">
-                        <p className="text-sm italic text-color1">
-                          وزن :{product.options}
+                      <div className="flex flex-1 flex-col justify-end text-center">
+                        <p className="text-sm italic text-color2">
+                          <span className="text-color1">
+                          وزن :
+                          </span>
+                            <span className="px-1">
+                            {new Intl.NumberFormat("fa-IR").format(
+                              product.options
+                            )}
+                            
+                            </span>
+                            <span className="text-color1">
+                              گرم
+                            </span>
                         </p>
                         <p className="text-base font-medium text-color2">
-                          قیمت تقریبی :{product.price}
+                          <span className="text-color1">قیمت تقریبی :</span>
+                          <span className="px-1">
+                            {new Intl.NumberFormat("fa-IR").format(
+                              product.price
+                            )}
+                          </span>
+                          <span className="text-color1">تومان</span>
                         </p>
                       </div>
                     </div>

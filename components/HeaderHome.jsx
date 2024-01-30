@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   LifebuoyIcon,
   NewspaperIcon,
@@ -60,11 +60,11 @@ export default function HeaderHome() {
         <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="mx-auto max-w-2xl lg:mx-0 w-full md:w-1/2">
             <h2 className="text-4xl font-bold tracking-tight text-color2 sm:text-6xl">
-             پارس زرگر
+              پارس زرگر
             </h2>
             <p className="mt-6 text-lg leading-8 text-color2">
-              خرید و فروش آنلاین و بدون واسطه در هر ساعت از شبانه روز با پارس زرگر
-              
+              خرید و فروش آنلاین و بدون واسطه در هر ساعت از شبانه روز با پارس
+              زرگر
             </p>
             <div className="w-full flex items-center justify-center mt-3">
               <button
@@ -80,14 +80,24 @@ export default function HeaderHome() {
               <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-1 items-center justify-center py-2">
                   <p className="text-color2">قیمت خرید</p>
-                  <p className="text-sm text-green-600"> 1000 تومان</p>
+                  <p className="text-sm text-green-600">
+                  <span>
+                      {new Intl.NumberFormat("fa-IR").format(29502000)}
+                    </span>
+                    <span className="px-2">تومان</span>
+                  </p>
                 </div>
                 <div>
                   <img src="/img/dow.png" width="50px" alt="logo" />
                 </div>
                 <div className="flex flex-col gap-1 items-center justify-center">
                   <p className="text-color2">قیمت فروش</p>
-                  <p className="text-sm text-red-600"> 2000 تومان</p>
+                  <p className="text-sm text-red-600">
+                    <span>
+                      {new Intl.NumberFormat("fa-IR").format(29302000)}
+                    </span>
+                    <span className="px-2">تومان</span>
+                  </p>
                 </div>
               </div>
               <div className="flex gap-2 w-full">
@@ -165,61 +175,63 @@ export default function HeaderHome() {
                     </div>
                   </div>
                 )}
-                {activeTab === "sell" && <div className="sellBox">
-                <div className="buyBox">
-                  <div>
-                      <label
-                        htmlFor="price"
-                        className="block text-sm font-medium leading-6 text-color2"
-                      >
-                        مقدار
-                      </label>
-                      <div className="relative mt-2 rounded-md shadow-sm">
-                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                          <span className="text-color1 sm:text-sm">گرم</span>
+                {activeTab === "sell" && (
+                  <div className="sellBox">
+                    <div className="buyBox">
+                      <div>
+                        <label
+                          htmlFor="price"
+                          className="block text-sm font-medium leading-6 text-color2"
+                        >
+                          مقدار
+                        </label>
+                        <div className="relative mt-2 rounded-md shadow-sm">
+                          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                            <span className="text-color1 sm:text-sm">گرم</span>
+                          </div>
+                          <input
+                            type="text"
+                            name="price"
+                            id="gram"
+                            className="block w-full rounded-md border-0 py-1.5 pl-7 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            placeholder="مقدار طلا را به گرم وارد کنید"
+                            aria-describedby="price-currency"
+                          />
                         </div>
-                        <input
-                          type="text"
-                          name="price"
-                          id="gram"
-                          className="block w-full rounded-md border-0 py-1.5 pl-7 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          placeholder="مقدار طلا را به گرم وارد کنید"
-                          aria-describedby="price-currency"
-                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="price"
+                          className="block text-sm font-medium leading-6 text-color2 mt-3"
+                        >
+                          مبلغ
+                        </label>
+                        <div className="relative mt-2 rounded-md shadow-sm">
+                          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                            <span className="text-color1 sm:text-sm">ریال</span>
+                          </div>
+                          <input
+                            type="text"
+                            name="price"
+                            id="price"
+                            className="block w-full rounded-md border-0 py-1.5 pl-7 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            placeholder="مقدار را به ریال وارد کنید"
+                            aria-describedby="price-currency"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="py-5 mt-3 flex items-center justify-center">
+                        <button
+                          type="button"
+                          className="text-color3 py-2 hover:text-white border bg-red-600 hover:bg-red-800 w-full rounded-lg"
+                        >
+                          فروش
+                        </button>
                       </div>
                     </div>
-                    <div>
-                      <label
-                        htmlFor="price"
-                        className="block text-sm font-medium leading-6 text-color2 mt-3"
-                      >
-                        مبلغ
-                      </label>
-                      <div className="relative mt-2 rounded-md shadow-sm">
-                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                          <span className="text-color1 sm:text-sm">ریال</span>
-                        </div>
-                        <input
-                          type="text"
-                          name="price"
-                          id="price"
-                          className="block w-full rounded-md border-0 py-1.5 pl-7 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          placeholder="مقدار را به ریال وارد کنید"
-                          aria-describedby="price-currency"
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="py-5 mt-3 flex items-center justify-center">
-                      <button
-                        type="button"
-                        className="text-color3 py-2 hover:text-white border bg-red-600 hover:bg-red-800 w-full rounded-lg"
-                      >
-                        فروش
-                      </button>
-                    </div>
-                  </div>    
-                </div>}
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -12,7 +12,7 @@ const products = [
     href: "#",
     imageSrc: "/img/im1.jpg",
     imageAlt: "انگشتر",
-    price: "$140",
+    price: 14000000,
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const products = [
     href: "#",
     imageSrc: "/img/im2.jpg",
     imageAlt: "گوشواره",
-    price: "$440",
+    price: 12222440,
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ const products = [
     href: "#",
     imageSrc: "/img/im4.jpg",
     imageAlt: "ساعت",
-    price: "$940",
+    price: 33339400,
   },
   {
     id: 5,
@@ -48,7 +48,7 @@ const products = [
     href: "#",
     imageSrc: "/img/im5.jpg",
     imageAlt: "انگشتر",
-    price: "$140",
+    price: 140899999,
   },
   {
     id: 6,
@@ -57,7 +57,7 @@ const products = [
     href: "#",
     imageSrc: "/img/im6.jpg",
     imageAlt: "گوشواره",
-    price: "$440",
+    price: 44000000,
   },
   {
     id: 7,
@@ -66,7 +66,7 @@ const products = [
     href: "#",
     imageSrc: "/img/im7.jpg",
     imageAlt: "کیف",
-    price: "$540",
+    price: 54000000,
   },
   {
     id: 8,
@@ -75,7 +75,7 @@ const products = [
     href: "#",
     imageSrc: "/img/gold7.jpg",
     imageAlt: "کیف",
-    price: "$540",
+    price: 54000000,
   },
   {
     id: 9,
@@ -84,7 +84,7 @@ const products = [
     href: "#",
     imageSrc: "/img/im8.jpg",
     imageAlt: "ساعت",
-    price: "$940",
+    price: 9400000,
   },
   {
     id: 10,
@@ -93,7 +93,7 @@ const products = [
     href: "#",
     imageSrc: "/img/gold1.jpg",
     imageAlt: "ساعت",
-    price: "$940",
+    price: 9400000,
   },
   {
     id: 11,
@@ -102,7 +102,7 @@ const products = [
     href: "#",
     imageSrc: "/img/gold2.jpg",
     imageAlt: "ساعت",
-    price: "$940",
+    price: 9400000,
   },
   {
     id: 12,
@@ -111,7 +111,7 @@ const products = [
     href: "#",
     imageSrc: "/img/gold3.jpg",
     imageAlt: "ساعت",
-    price: "$940",
+    price: 11111940,
   },
   {
     id: 13,
@@ -120,7 +120,7 @@ const products = [
     href: "#",
     imageSrc: "/img/gold4.jpg",
     imageAlt: "ساعت",
-    price: "$940",
+    price: 94000000,
   },
   {
     id: 14,
@@ -129,7 +129,7 @@ const products = [
     href: "#",
     imageSrc: "/img/gold5.jpg",
     imageAlt: "ساعت",
-    price: "$940",
+    price: 2222940,
   },
   {
     id: 15,
@@ -138,7 +138,7 @@ const products = [
     href: "#",
     imageSrc: "/img/gold6.jpg",
     imageAlt: "ساعت",
-    price: "$940",
+    price: 5555940,
   },
   {
     id: 16,
@@ -147,7 +147,7 @@ const products = [
     href: "#",
     imageSrc: "/img/gold7.jpg",
     imageAlt: "ساعت",
-    price: "$940",
+    price: 9400000,
   },
   // More products...
 ];
@@ -219,12 +219,21 @@ export default function ProductsComponent() {
                     className="h-full w-full object-cover object-center"
                   />
                 </div>
-                <div className="relative mt-4">
-                  <h3 className="text-md font-medium text-color2 px-2">
+                <div className="relative mt-4 py-5 text-center">
+                  <h3 className="text-md font-medium text-color1 px-2">
                     {product.name}
                   </h3>
-                  <p className="mt-1 text-sm text-color2 px-2">
-                    {product.price}
+                  <p className="mt-1 text-sm text-color2 px-2 py-2">
+                    <span className="px-2 text-color1">
+                       قیمت :
+                    </span>
+                    <span>
+                    {new Intl.NumberFormat('fa-IR').format(product.price)}
+                    </span>
+                    <span className="px-2 text-color1">
+                        ریال
+                    </span>
+                   
                   </p>
                 </div>
                 <div className="absolute inset-x-0 top-0 flex h-64 items-end justify-end overflow-hidden  p-4">

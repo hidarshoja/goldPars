@@ -14,7 +14,7 @@ const solutions = [
   {
     name: 'فروش طلای آبشده ',
     description: 'در این صفحه می توانید طلای خود را بفروشید',
-    href: '#',
+    href: '/sellPage',
   },
   { name: 'محصولات', description: 'در این صفحه می توانید اقدام به  دیدن محصولات کنید', href: '/product' },
   { name: 'سبد خرید ', description: 'در این صفحه سبد خرید خود را مشاهده کنید', href: '/cart' },
