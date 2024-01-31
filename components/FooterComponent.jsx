@@ -1,4 +1,6 @@
 "use client"
+import { useState ,useEffect } from "react";
+import axios from "axios";
 const navigation = {
   solutions: [
     {
@@ -89,6 +91,22 @@ const navigation = {
 };
 
 export default function Footer() {
+
+  const [emailInput, setEmailInput] = useState("");
+
+  const handleEmailButtonClick = async () => {
+    try {
+      const dataToSend = {
+        emailInput,
+      };
+      const response = await axios.post("https://jsonplaceholder.typicode.com/posts", dataToSend);
+
+      console.log("Server footer email:", response.data);
+    } catch (error) {
+      console.error("Error sending data:", error);
+    }
+  };
+
   return (
     <footer className="bg-[#1b2924]" aria-labelledby="footer-heading" dir="rtl">
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between py-4">
@@ -175,10 +193,12 @@ export default function Footer() {
               required
               className="w-full min-w-0 appearance-none rounded-md border-0 bg-white/5 px-3 py-1.5 text-base text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:w-56 sm:text-sm sm:leading-6"
               placeholder="ایمیل خود را وارد کنید"
+              onChange={(e) => setEmailInput(e.target.value)}
             />
             <div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
               <button
-                type="submit"
+                type="button"
+                onClick={handleEmailButtonClick}
                 className="flex w-full items-center justify-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold"
               >
                 مشترک شدن

@@ -4,7 +4,8 @@ import React from 'react'
 import { Fragment, useState } from 'react'
 import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { StarIcon } from '@heroicons/react/20/solid'
+import { StarIcon } from '@heroicons/react/20/solid';
+import axios from 'axios';
 
 const product = {
   name: "Women's Basic Tee",
@@ -35,8 +36,30 @@ function classNames(...classes) {
 
 
 export const ProductModal = ({open, setOpen , selectedProduct}) => {
- const [selectedColor, setSelectedColor] = useState(product.colors[0])
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2])
+ const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+  let productName = selectedProduct.name;
+  let productPrice = selectedProduct.price;
+
+   const addProductToCart = async (productName, productPrice) => {
+    try {
+      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', {
+        name: productName,
+        price: productPrice,
+      });
+  
+      if (response.status === 201) {
+        console.log('محصول با موفقیت افزوده شد به سبد خرید.' );
+        
+        
+      } else {
+        console.error('خطا در افزودن محصول به سبد خرید.');
+      }
+    } catch (error) {
+      console.error('خطا در ارسال درخواست POST:', error);
+    }
+  };
+
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -91,7 +114,11 @@ export const ProductModal = ({open, setOpen , selectedProduct}) => {
                           Product information
                         </h3>
 
-                        <p className="font-medium text-color2">{selectedProduct?.price}</p>
+                        <p className="font-medium text-color1">
+                       
+                        هزار تومان
+                        {new Intl.NumberFormat('fa-IR').format(selectedProduct?.price)}
+                        </p>
 
                         {/* Reviews */}
                         <div className="mt-4">
@@ -206,7 +233,8 @@ export const ProductModal = ({open, setOpen , selectedProduct}) => {
                           </div>
 
                           <button
-                            type="submit"
+                            type="button"
+                            onClick={() => addProductToCart()}
                             className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-color1 px-8 py-3 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                           >
                            افزودن به سبد خرید

@@ -1,5 +1,8 @@
 
 import Marquee from "react-fast-marquee";
+import axios from "axios";
+import { useState ,useEffect } from "react";
+
   const newsItems = [
     {id:1, key: "قیمت طلا امروز" , price :2300000},
     {id:2, key: "قیمت طلا فروش " , price :2300000},
@@ -17,6 +20,21 @@ import Marquee from "react-fast-marquee";
   
 
 export default function TicketComponent() {
+  const [data, setData] = useState([]);
+  
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://jsonplaceholder.typicode.com/posts/1");
+      setData(response.data);
+      console.log("مقدار تیکت زیر منو" , response.data);
+      //data = response.data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div className="mt-[80px] py-3 bg-yellow-500 ">
         <Marquee autoFill={true}>

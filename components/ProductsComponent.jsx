@@ -1,8 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import ProductModal from "./ProductModal";
 import { FaHeart } from "react-icons/fa";
 import { IoIosHeart } from "react-icons/io";
+import axios from "axios";
 
 const products = [
   {
@@ -30,7 +31,7 @@ const products = [
     href: "#",
     imageSrc: "/img/im3.jpg",
     imageAlt: "کیف",
-    price: "$540",
+    price: 540,
   },
   {
     id: 4,
@@ -161,6 +162,21 @@ export default function ProductsComponent() {
   const [visibleBoxes, setVisibleBoxes] = useState(8);
   const boxesIncrement = 4;
   const totalBoxes = products.length;
+  const [data, setData] = useState([]);
+  
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://jsonplaceholder.typicode.com/posts/1");
+      setData(response.data);
+      console.log("مقدار محصولات" , response.data);
+      //data = response.data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleButtonClick = () => {
     if (visibleBoxes + boxesIncrement <= totalBoxes) {

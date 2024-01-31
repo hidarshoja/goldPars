@@ -1,7 +1,8 @@
 "use client";
 
+import { useState ,useEffect } from "react";
 import { Line } from "react-chartjs-2";
-
+import axios from "axios";
 import {
   Chart,
   LineElement,
@@ -33,6 +34,21 @@ const salesData = [
 ];
 
 export default function ChartComponent() {
+  const [dataFetch , setDataFetch] = useState([]);
+  
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://jsonplaceholder.typicode.com/posts/1");
+      setDataFetch(response.data);
+      console.log("مقدار  چارت" , response.data);
+      //dataFetch = response.data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   const data = {
     labels: salesData.map((data) => data.month),
     datasets: [

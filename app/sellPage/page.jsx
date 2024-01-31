@@ -48,27 +48,7 @@ const people = [
 ];
 
 export default function Sell() {
-  // const [priceGold , setPriceGold] = useState(29000000)
-  // const [gramGold , setGramGold] = useState("")
-  // const [amount, setAmount] = useState("");
 
-  // const  handleGramChange = (e) => {
-  //   const enteredValue = e.target.value;
-  //   setGramGold(enteredValue);
-
-  //   const parsedValue = parseFloat(enteredValue);
-  //   if (!isNaN(gramGold)) {
-  //     setGramGold(parsedValue * priceGold);
-  //   }
-  // };
-  //   const handleButtonClick = (value) => {
-  //     setAmount((prevAmount) => {
-  //       const newAmount = prevAmount
-  //         ? parseFloat(prevAmount) + parseFloat(value)
-  //         : parseFloat(value);
-  //       return newAmount.toString();
-  //     });
-  // };
   const [priceGold, setPriceGold] = useState(29000000);
   const [gramGold, setGramGold] = useState("");
   const [amount, setAmount] = useState("");
@@ -104,7 +84,7 @@ export default function Sell() {
       className="w-full min-h-[800px] flex flex-col items-center justify-center py-20"
       dir="rtl"
     >
-      <div className="w-[450px] min-h-[530px] bg-[#272523] rounded-xl p-3 mt-24">
+      <div className="w-[100%] md:w-[450px] min-h-[530px] bg-[#272523] rounded-xl p-3 mt-24">
         <div className="flex items-center justify-between">
           <p className="text-color3">فروش طلای آب شده </p>
           <p className="text-color3">
@@ -132,7 +112,6 @@ export default function Sell() {
               onChange={handleGramChange}
             />
           </div>
-
           <div>
             <div className="flex gap-3 mt-5">
               <button

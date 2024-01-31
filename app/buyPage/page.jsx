@@ -48,13 +48,35 @@ const people = [
 ];
 
 export default function Buy() {
-  const [amount, setAmount] = useState(0);
+ 
+  const [priceGold, setPriceGold] = useState(29000000);
+  const [gramGold, setGramGold] = useState("");
+  const [amount, setAmount] = useState("");
+  const [totalPrice, setTotalPrice] = useState("");
+
+  const handleGramChange = (e) => {
+    const enteredValue = e.target.value;
+    setGramGold(enteredValue);
+
+    const parsedValue = parseFloat(enteredValue);
+    if (!isNaN(parsedValue)) {
+      setTotalPrice(parsedValue / priceGold);
+    }
+  };
 
   const handleButtonClick = (value) => {
-    setAmount((prevAmount) => {
-      return prevAmount
-        ? String(parseInt(prevAmount, 10) + parseInt(value, 10))
-        : value;
+    setGramGold((prevAmount) => {
+      const newAmount = prevAmount
+        ? parseFloat(prevAmount) + parseFloat(value)
+        : parseFloat(value);
+   
+
+      const parsedValue = parseFloat(newAmount);
+      if (!isNaN(parsedValue)) {
+        setTotalPrice(parsedValue / priceGold);
+      }
+
+      return newAmount.toString();
     });
   };
   return (
@@ -62,7 +84,7 @@ export default function Buy() {
       className="w-full min-h-[800px] flex flex-col items-center justify-center py-20"
       dir="rtl"
     >
-      <div className="w-[450px] min-h-[530px] bg-[#272523] rounded-xl p-3 mt-24">
+      <div className="w-[100%] md:w-[450px] min-h-[530px] bg-[#272523] rounded-xl p-3 mt-24">
         <div className="flex items-center justify-between">
           <p className="text-color3">خرید طلای آب شده </p>
           <p className="text-color3">
@@ -75,7 +97,6 @@ export default function Buy() {
         </div>
         <div className="border-2 border-color2 rounded-xl p-3 mt-6">
           <p className="text-color3 text-sm"> مبلغ را وارد کنید :</p>
-
           <div className="relative mt-2 rounded-md shadow-sm">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
               <span className="text-gray-500 sm:text-sm">ریال</span>
@@ -84,11 +105,11 @@ export default function Buy() {
               type="text"
               name="price"
               id="price"
-              defaultValue={amount}
+              value={gramGold}
               className="block w-full rounded-md text-left border-0 py-2 pl-12  text- ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               placeholder="0000"
               aria-describedby="price-currency"
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={handleGramChange}
             />
           </div>
           <div>
@@ -132,10 +153,11 @@ export default function Buy() {
               type="text"
               name="gram"
               id="gram"
-              
+              value={totalPrice}
               className="block w-full rounded-md text-left border-0 py-2 pl-12  text- ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               placeholder="00"
               aria-describedby="price-currency"
+              readOnly
             />
           </div>
           <div className="border-l-4 border-yellow-400 bg-yellow-50 p-4 mt-5 rounded-xl">

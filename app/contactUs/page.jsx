@@ -1,7 +1,42 @@
-
-import { BuildingOffice2Icon, EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline'
+"use client"
+import { BuildingOffice2Icon, EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline';
+import { useState } from 'react';
+import axios from 'axios';
 
 export default function ContactUs() {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    message: '',
+  });
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', formData);
+
+      if (response.status === 201) {
+        console.log('اطلاعات با موفقیت ارسال شدند.');
+      
+      } else {
+        console.log('خطا در ارسال اطلاعات.');
+     
+      }
+    } catch (error) {
+      console.error('خطا در ارسال درخواست POST:', error);
+    }
+  };
+
   return (
     <div className="relative isolate bg-gray-900 pt-36" dir='rtl'>
       <div className="mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-2">
@@ -83,7 +118,7 @@ export default function ContactUs() {
             </dl>
           </div>
         </div>
-        <form action="#" method="POST" className="px-6 pb-24 pt-20 sm:pb-32 lg:px-8 lg:py-48">
+        <form onSubmit={handleSubmit} className="px-6 pb-24 pt-20 sm:pb-32 lg:px-8 lg:py-48">
           <div className="mx-auto max-w-xl lg:mr-0 lg:max-w-lg">
             <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
               <div>

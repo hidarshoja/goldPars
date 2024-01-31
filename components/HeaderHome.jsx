@@ -1,10 +1,13 @@
 "use client";
+
 import {
   LifebuoyIcon,
   NewspaperIcon,
   PhoneIcon,
 } from "@heroicons/react/20/solid";
-import { useState } from "react";
+import { useState ,useEffect } from "react";
+
+import axios from "axios";
 
 const cards = [
   {
@@ -27,8 +30,42 @@ const cards = [
   },
 ];
 
+
+
 export default function HeaderHome() {
   const [activeTab, setActiveTab] = useState("buy");
+  const [price, setPrice] = useState("");
+  const [gram, setGram] = useState("");
+  const [priceSell, setPriceSell] = useState("");
+  const [gramSell, setGramSell] = useState("");
+
+  const handleBuyButtonClick = async () => {
+    try {
+      const dataToSend = {
+        price,
+        gram,
+      };
+      const response = await axios.post("https://jsonplaceholder.typicode.com/posts", dataToSend);
+
+      console.log("Server Response:", response.data);
+    } catch (error) {
+      console.error("Error sending data:", error);
+    }
+  };
+  const handleSellButtonClick = async () => {
+    try {
+      const dataToSend = {
+        priceSell,
+        gramSell,
+      };
+      const response = await axios.post("https://jsonplaceholder.typicode.com/posts", dataToSend);
+
+      console.log("Server Response:", response.data);
+    } catch (error) {
+      console.error("Error sending data:", error);
+    }
+  };
+ 
 
   const handleButtonClick = (tab) => {
     setActiveTab(tab);
@@ -141,6 +178,8 @@ export default function HeaderHome() {
                           className="block w-full rounded-md border-0 py-1.5 pl-7 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           placeholder="مقدار را به ریال وارد کنید"
                           aria-describedby="price-currency"
+                          value={price}
+                          onChange={(e) => setPrice(e.target.value)}
                         />
                       </div>
                     </div>
@@ -157,17 +196,20 @@ export default function HeaderHome() {
                         </div>
                         <input
                           type="text"
-                          name="price"
+                          name="gram"
                           id="gram"
                           className="block w-full rounded-md border-0 py-1.5 pl-7 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           placeholder="مقدار طلا را به گرم وارد کنید"
                           aria-describedby="price-currency"
+                          value={gram}
+                          onChange={(e) => setGram(e.target.value)}
                         />
                       </div>
                     </div>
                     <div className="py-5 mt-3 flex items-center justify-center">
                       <button
                         type="button"
+                        onClick={handleBuyButtonClick}
                         className="text-color3 py-2 hover:text-white border border-green-700 hover:bg-green-500 w-full rounded-lg"
                       >
                         خرید
@@ -196,6 +238,8 @@ export default function HeaderHome() {
                             className="block w-full rounded-md border-0 py-1.5 pl-7 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             placeholder="مقدار طلا را به گرم وارد کنید"
                             aria-describedby="price-currency"
+                            value={gramSell}
+                            onChange={(e) => setGramSell(e.target.value)}
                           />
                         </div>
                       </div>
@@ -217,6 +261,8 @@ export default function HeaderHome() {
                             className="block w-full rounded-md border-0 py-1.5 pl-7 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             placeholder="مقدار را به ریال وارد کنید"
                             aria-describedby="price-currency"
+                            value={priceSell}
+                            onChange={(e) => setPriceSell(e.target.value)}
                           />
                         </div>
                       </div>
@@ -224,6 +270,7 @@ export default function HeaderHome() {
                       <div className="py-5 mt-3 flex items-center justify-center">
                         <button
                           type="button"
+                          onClick={handleSellButtonClick}
                           className="text-color3 py-2 hover:text-white border bg-red-600 hover:bg-red-800 w-full rounded-lg"
                         >
                           فروش
