@@ -8,7 +8,7 @@
 } */
 @font-face {
     font-family: "vazir";
-    src: url("./public/font/Vazirmatn-Medium.ttf");
+    src: url("/font/Vazirmatn-Medium.ttf");
 }
 
 *{
