@@ -1,6 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
+import axios from 'axios';
+
 const people = [
   {
     id: 1,

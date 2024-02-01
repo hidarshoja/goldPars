@@ -1,6 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState  , useEffect } from "react";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
+import axios from 'axios';
+
 const people = [
   {
     id: 1,
@@ -48,10 +50,10 @@ const people = [
 ];
 
 export default function Buy() {
- 
+  const [data, setData] = useState([]);
   const [priceGold, setPriceGold] = useState(29000000);
   const [gramGold, setGramGold] = useState("");
-  const [amount, setAmount] = useState("");
+   const [amount, setAmount] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
 
   const handleGramChange = (e) => {
@@ -78,6 +80,32 @@ export default function Buy() {
 
       return newAmount.toString();
     });
+  };
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://jsonplaceholder.typicode.com/posts/1");
+      setData(response.data);
+      console.log("مقدار تیبل  " , response.data);
+      //data = response.data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handlePurchase = async () => {
+    try {
+      const response = await axios.post("https://jsonplaceholder.typicode.com/posts", {
+        gramGold,
+        totalPrice,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error posting data:", error);
+    }
   };
   return (
     <div
@@ -181,7 +209,9 @@ export default function Buy() {
             موجودی کیف پول : <span className="px-1 text-color2">  {new Intl.NumberFormat('fa-IR').format(0)} </span>ریال
           </p>
           <div className="w-full mt-3">
-            <button className="w-full rounded-lg py-2 bg-color2 text-color3 border-2 border-color2 hover:bg-color3 hover:text-color2">
+            <button
+            onClick={handlePurchase} 
+            className="w-full rounded-lg py-2 bg-color2 text-color3 border-2 border-color2 hover:bg-color3 hover:text-color2">
               خرید{" "}
             </button>
           </div>

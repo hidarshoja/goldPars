@@ -1,9 +1,7 @@
-  "use client";
+"use client"
 
- 
-
-
-
+import { useState , useEffect } from 'react';
+import axios from 'axios';
 import { Disclosure } from '@headlessui/react'
 import { MinusSmallIcon, PlusSmallIcon } from '@heroicons/react/24/outline'
 
@@ -46,6 +44,21 @@ const faqs = [
 ]
 
 export default function Fags() {
+  const [faqsData, setFaqsData] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://jsonplaceholder.typicode.com/posts/1");
+      setFaqsData(response.data);
+      console.log(" سوالات  " , response.data);
+      //faqsData = response.data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div className="bg-color1" dir='rtl'>
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 lg:py-40">

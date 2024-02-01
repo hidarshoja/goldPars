@@ -18,7 +18,7 @@ const solutions = [
   },
   { name: 'محصولات', description: 'در این صفحه می توانید اقدام به  دیدن محصولات کنید', href: '/product' },
   { name: 'سبد خرید ', description: 'در این صفحه سبد خرید خود را مشاهده کنید', href: '/cart' },
-  { name: 'قیمت حرفه ای', description: 'در این صفحه کی توانید براساس سطح خود قیمت  ها را ببینید', href: '#' },
+  { name: 'قیمت حرفه ای', description: 'در این صفحه کی توانید براساس سطح خود قیمت  ها را ببینید', href: '/professional' },
 ]
 
 const NavBar = () => {

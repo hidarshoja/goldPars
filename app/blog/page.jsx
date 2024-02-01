@@ -1,7 +1,8 @@
-"use clinet";
+"use client"
 
-import React from "react";
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { useState , useEffect } from 'react';
+import axios from 'axios';
+
 
 const jobOpenings = [
   {
@@ -10,7 +11,7 @@ const jobOpenings = [
     href: "#",
     description:
       " شما می توانید با ثبت نام فرم مشارکت با ما ، و یا مراجعه حضوری به دفتر مرکزی ما واقع در تهران خیابان جمهوری شرکت پارس زرگر اقدام به پر کردن فرم همکاری نماید و همکاران ما در اولیفرصت با شما تماس خواهند گرفت",
-    salary: "1.175,000 میانگین درامد ماهانه ",
+    salary: "مدیر    ",
     location: "تهران ",
   },
   {
@@ -19,7 +20,7 @@ const jobOpenings = [
     href: "#",
     description:
       "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.",
-    salary: "125,000 میانگین در امد ماهانه ",
+    salary: "مدیر شرکت    ",
     location: "مشهد",
   }
 ];
@@ -77,6 +78,45 @@ const posts = [
 ];
 
 export default function Blog() {
+  const [data, setData] = useState([]);
+  const [formData, setFormData] = useState({
+    username: "",
+    about: "",
+  });
+
+  const { username, about } = formData;
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post("https://jsonplaceholder.typicode.com/posts", {
+        username,
+        about,
+      });
+      console.log(response.data);
+    } catch (error) {
+     
+      console.error("Error posting data:", error);
+    }
+  };
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://jsonplaceholder.typicode.com/posts/1");
+      setData(response.data);
+      console.log("مقدار بلاگ  " , response.data);
+      //data = response.data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div>
       {/* box1 */}
@@ -218,6 +258,8 @@ export default function Blog() {
                     autoComplete="username"
                     className="flex-1 border-0 bg-transparent py-1.5 pl-1 text-white focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="janesmith"
+                    value={username}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -232,15 +274,20 @@ export default function Blog() {
                   id="about"
                   name="about"
                   rows={3}
+                  value={about}
+                  onChange={handleChange}
                   className="block w-full min-h-[200px] rounded-md border-0 bg-white/5 px-2 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                  defaultValue={''}
+                  
                 />
               </div>
               <p className="mt-3 text-sm leading-6 text-color2">چند جمله در مورد دیدگاهتان بنویسید.</p>
             </div>
           </div>
            <div className="flex items-center justify-end  w-full">
-               <button className="text-color3  border-2 px-5 py-2 rounded-lg border-color2 hover:bg-color2">ارسال دیدگاه</button>
+               <button
+                onClick={handleSubmit}
+                type='button'
+               className="text-color3  border-2 px-5 py-2 rounded-lg border-color2 hover:bg-color2">ارسال دیدگاه</button>
            </div>
         </div>
 
