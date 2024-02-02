@@ -7,7 +7,7 @@ import Footer from '../components/FooterComponent';
 
 
 export default function RootLayout({ children }) {
-  const paths = ['/login' , "/register" , "/forgot"]
+  const paths = ['/login' , "/register" , "/forgot" , "/GetCode"]
   const profile = usePathname()
   
   

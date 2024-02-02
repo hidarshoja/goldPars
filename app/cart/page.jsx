@@ -1,7 +1,8 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useState , useEffect } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
+import axios from "axios";
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
@@ -203,6 +204,39 @@ function classNames(...classes) {
 
 export default function Cart() {
   const [open, setOpen] = useState(false);
+  const [data, setData] = useState([]);
+  const handlePayment = async () => {
+    try {
+      const postData = {
+        products: products.map(product => ({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+        })),
+        totalAmount: result,
+      };
+
+      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', postData);
+
+      console.log('Response from server:', response.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://jsonplaceholder.typicode.com/posts/1");
+      setData(response.data);
+      console.log(" سبد خرید  ابدیت شد" , response.data);
+      //data = response.data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="bg-color1 mt-24" dir="rtl">
@@ -561,10 +595,11 @@ export default function Cart() {
 
             <div className="mt-6">
               <button
-                type="submit"
-                className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                type="button"
+                onClick={handlePayment}
+                className="w-full rounded-md border border-transparent bg-green-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
               >
-                درگاه بانک
+                 پرداخت از طریق کیف پول
               </button>
             </div>
           </section>

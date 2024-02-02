@@ -1,11 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ChartComponent from "@/components/ChartComponent";
+import axios from "axios";
+
 export default function Professional() {
   const [activeTab, setActiveTab] = useState("menu1");
   const [activeDiv, setActiveDiv] = useState("bit");
   const [activeTabTop, setActiveTabTop] = useState("menuList1");
+  const [data, setData] = useState([]);
+  const [priceGold , setPriceGold] = useState(29120000);
+  const [cash , setCash] = useState(0);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "https://jsonplaceholder.typicode.com/posts/1"
+      );
+      setData(response.data);
+      console.log("مقدار  سفارشات  ", response.data);
+      //data = response.data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const orders = [
     {
@@ -49,15 +70,15 @@ export default function Professional() {
       status: "لغو شده",
     },
     {
-        id: 5,
-        date: "1399/01/01",
-        product: "ربع سکه",
-        quantity: 6,
-        price: 2000,
-        total: 2200,
-        amount: 22000,
-        status: "منتظر تایید",
-      }
+      id: 5,
+      date: "1399/01/01",
+      product: "ربع سکه",
+      quantity: 6,
+      price: 2000,
+      total: 2200,
+      amount: 22000,
+      status: "منتظر تایید",
+    },
   ];
 
   const showContent = (tab) => {
@@ -69,6 +90,59 @@ export default function Professional() {
     setActiveTabTop(tab);
   };
 
+  const handleBuySubmit = async () => {
+    try {
+      const priceInput = document.getElementById('price');
+      const paymentInput = document.getElementById('Payment');
+
+      const priceValue = priceInput.value;
+      const paymentValue = paymentInput.value; 
+
+      const postData = {
+        priceGold: priceGold,
+        priceValue: priceValue,
+        cash: cash,
+        paymentValue: paymentValue,
+        
+      };
+
+      
+      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', postData);
+
+      
+      console.log('Response from server:', response.data);
+    } catch (error) {
+   
+      console.error('Error:', error);
+    }
+  };
+
+  const handleSellSubmit = async () => {
+    try {
+      const priceInput = document.getElementById('sellPrice');
+      const paymentInput = document.getElementById('priceAmount');
+
+      const priceValue = priceInput.value;
+      const paymentValue = paymentInput.value; 
+
+      const postData = {
+        priceGold: priceGold,
+        priceValue: priceValue,
+        cash: cash,
+        paymentValue: paymentValue,
+        
+      };
+
+      
+      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', postData);
+
+      
+      console.log('Response from server:', response.data);
+    } catch (error) {
+   
+      console.error('Error:', error);
+    }
+  };
   return (
     <div className="mt-36" dir="rtl">
       <h2 className="text-center text-color2 text-xl md:text-3xl font-bold py-10">
@@ -109,40 +183,27 @@ export default function Professional() {
                   <div className="w-full">
                     <div>
                       {/* قیمت فروش */}
-                      <label
-                        htmlFor="price"
-                        className="block text-[12px] font-medium leading-6 text-gray-100 pt-4"
-                      >
-                        قیمت خرید
-                      </label>
+                      <div className="flex items-center justify-between mt-5">
+                        <label
+                          htmlFor="price"
+                          className=" text-[12px] font-medium leading-6 text-gray-100"
+                        >
+                          قیمت خرید
+                        </label>
+                        <span className=" text-[12px] font-medium leading-6 text-color2">
+                          <span>
+                          {new Intl.NumberFormat('fa-IR').format(priceGold)}
+                          </span>
+                          <span className="pr-2 text-color3">هزار تومان</span>
+                        </span>
+                      </div>
                       {/* Input for price */}
-                      <div className="relative mt-2 rounded-md shadow-sm">
+                      <div className="relative  rounded-md shadow-sm">
                         <div className="pointer-events-none absolute inset-y-0 right-1 flex items-center pl-3">
-                          <span className="text-gray-500 sm:text-sm">$</span>
+                          <span className="text-gray-500 sm:text-sm"> </span>
                         </div>
-                        <input
-                          type="text"
-                          name="price"
-                          id="price"
-                          className="block w-full rounded-md border-0 py-1.5 pl-20 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          dir="ltr"
-                          placeholder="0.00"
-                        />
-                        {/* Currency selection */}
-                        <div className="absolute inset-y-0 left-0 flex items-center">
-                          <label htmlFor="currency" className="sr-only">
-                            Currency
-                          </label>
-                          <select
-                            id="currency"
-                            name="currency"
-                            className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                          >
-                            <option>USD</option>
-                            <option>CAD</option>
-                            <option>EUR</option>
-                          </select>
-                        </div>
+
+                        
                       </div>
                     </div>
                     {/* مقدار فروش */}
@@ -154,8 +215,8 @@ export default function Professional() {
                         مقدار خرید
                       </label>
                       <div className="relative mt-2 rounded-md shadow-sm">
-                        <div className="pointer-events-none absolute inset-y-0 right-1 flex items-center pl-3">
-                          <span className="text-gray-500 sm:text-sm">$</span>
+                        <div className="pointer-events-none absolute inset-y-0 left-1 flex items-center pl-3">
+                          <span className="text-gray-500 sm:text-sm">تومان</span>
                         </div>
                         <input
                           type="text"
@@ -163,22 +224,9 @@ export default function Professional() {
                           id="price"
                           className="block w-full rounded-md border-0 py-1.5 pl-20 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           dir="ltr"
-                          placeholder="0.00"
+                          placeholder="000"
                         />
-                        <div className="absolute inset-y-0 left-0 flex items-center">
-                          <label htmlFor="currency" className="sr-only">
-                            Currency
-                          </label>
-                          <select
-                            id="currency"
-                            name="currency"
-                            className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                          >
-                            <option>USD</option>
-                            <option>CAD</option>
-                            <option>EUR</option>
-                          </select>
-                        </div>
+                       
                       </div>
                     </div>
                     {/* موجوی شما */}
@@ -198,9 +246,11 @@ export default function Professional() {
                       </span>
                       <span>
                         <span className="text-gray-100 text-sm">
-                          موجوی شما :
+                          موجودی کیف پول شما :
                         </span>
-                        <span className="text-[#f9d41a]">0</span>
+                        <span className="text-[#f9d41a] px-2">
+                        {new Intl.NumberFormat('fa-IR').format(cash)}
+                        </span>
                       </span>
                     </div>
                     {/* پرداختی */}
@@ -212,16 +262,16 @@ export default function Professional() {
                         پرداختی
                       </label>
                       <div className="relative mt-2 rounded-md shadow-sm">
-                        <div className="pointer-events-none absolute inset-y-0 right-1 flex items-center pl-3">
-                          <span className="text-gray-500 sm:text-sm">$</span>
+                        <div className="pointer-events-none absolute inset-y-0 left-1 flex items-center pl-3">
+                          <span className="text-gray-500 sm:text-sm">تومان</span>
                         </div>
                         <input
                           type="text"
-                          name="price"
-                          id="price"
-                          className="block w-full rounded-md border-0 py-1.5 pl-4 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                          name="Payment"
+                          id="Payment"
+                          className="block w-full rounded-md border-0 py-1.5 pl-20  text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                           dir="ltr"
-                          placeholder="0.00"
+                          placeholder="000"
                         />
                       </div>
                     </div>
@@ -229,6 +279,7 @@ export default function Professional() {
                     <div className="mt-5">
                       <button
                         type="button"
+                        onClick={handleBuySubmit}
                         className="text-gray-100 w-full bg-[#3fd63f] hover:bg-[#96dd54] font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                       >
                         ثبت سفارش خرید
@@ -247,44 +298,20 @@ export default function Professional() {
               <div>
                 {activeTab === "menu1" && (
                   <div className="w-full">
-                    <div>
-                      {/* قیمت فروش */}
-                      <label
-                        htmlFor="price"
-                        className="block text-[12px] font-medium leading-6 text-gray-100 pt-4"
-                      >
-                        قیمت فروش
-                      </label>
-                      {/* Input for price */}
-                      <div className="relative mt-2 rounded-md shadow-sm">
-                        <div className="pointer-events-none absolute inset-y-0 right-1 flex items-center pl-3">
-                          <span className="text-gray-500 sm:text-sm">$</span>
-                        </div>
-                        <input
-                          type="text"
-                          name="price"
-                          id="price"
-                          className="block w-full rounded-md border-0 py-1.5 pl-20 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          dir="ltr"
-                          placeholder="0.00"
-                        />
-                        {/* Currency selection */}
-                        <div className="absolute inset-y-0 left-0 flex items-center">
-                          <label htmlFor="currency" className="sr-only">
-                            Currency
-                          </label>
-                          <select
-                            id="currency"
-                            name="currency"
-                            className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                          >
-                            <option>USD</option>
-                            <option>CAD</option>
-                            <option>EUR</option>
-                          </select>
-                        </div>
+                     <div className="flex items-center justify-between mt-5">
+                        <label
+                          htmlFor="price"
+                          className=" text-[12px] font-medium leading-6 text-gray-100"
+                        >
+                          قیمت فروش
+                        </label>
+                        <span className=" text-[12px] font-medium leading-6 text-color2">
+                          <span>
+                          {new Intl.NumberFormat('fa-IR').format(priceGold)}
+                          </span>
+                          <span className="pr-2 text-color3">هزار تومان</span>
+                        </span>
                       </div>
-                    </div>
                     {/* مقدار فروش */}
                     <div>
                       <label
@@ -294,31 +321,17 @@ export default function Professional() {
                         مقدار فروش
                       </label>
                       <div className="relative mt-2 rounded-md shadow-sm">
-                        <div className="pointer-events-none absolute inset-y-0 right-1 flex items-center pl-3">
-                          <span className="text-gray-500 sm:text-sm">$</span>
+                        <div className="pointer-events-none absolute inset-y-0 left-1 flex items-center pl-3">
+                          <span className="text-gray-500 sm:text-sm">تومان</span>
                         </div>
                         <input
                           type="text"
-                          name="price"
-                          id="price"
+                          id="sellPrice"
                           className="block w-full rounded-md border-0 py-1.5 pl-20 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           dir="ltr"
-                          placeholder="0.00"
+                          placeholder="000"
                         />
-                        <div className="absolute inset-y-0 left-0 flex items-center">
-                          <label htmlFor="currency" className="sr-only">
-                            Currency
-                          </label>
-                          <select
-                            id="currency"
-                            name="currency"
-                            className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                          >
-                            <option>USD</option>
-                            <option>CAD</option>
-                            <option>EUR</option>
-                          </select>
-                        </div>
+                        
                       </div>
                     </div>
                     {/* موجوی شما */}
@@ -338,9 +351,11 @@ export default function Professional() {
                       </span>
                       <span>
                         <span className="text-gray-100 text-sm">
-                          موجوی شما :
+                          موجودی کیف پول شما :
                         </span>
-                        <span className="text-[#f9d41a]">0</span>
+                        <span className="text-[#f9d41a] px-2">
+                        {new Intl.NumberFormat('fa-IR').format(cash)}
+                        </span>
                       </span>
                     </div>
                     {/* پرداختی */}
@@ -352,16 +367,15 @@ export default function Professional() {
                         پرداختی
                       </label>
                       <div className="relative mt-2 rounded-md shadow-sm">
-                        <div className="pointer-events-none absolute inset-y-0 right-1 flex items-center pl-3">
-                          <span className="text-gray-500 sm:text-sm">$</span>
+                        <div className="pointer-events-none absolute inset-y-0 left-1 flex items-center pl-3">
+                          <span className="text-gray-500 sm:text-sm">تومان</span>
                         </div>
                         <input
                           type="text"
-                          name="price"
-                          id="price"
-                          className="block w-full rounded-md border-0 py-1.5 pl-4 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                          id="priceAmount"
+                          className="block w-full rounded-md border-0 py-1.5 pl-20 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                           dir="ltr"
-                          placeholder="0.00"
+                          placeholder="000"
                         />
                       </div>
                     </div>
@@ -369,6 +383,7 @@ export default function Professional() {
                     <div className="mt-5">
                       <button
                         type="button"
+                        onClick={handleSellSubmit}
                         className="text-gray-100 w-full bg-[#d63f3f] hover:bg-[#dd5854] font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                       >
                         ثبت سفارش فروش
@@ -386,16 +401,18 @@ export default function Professional() {
           <ChartComponent />
         </div>
       </div>
-     
-        <h3 className="text-center text-color2 text-xl md:text-3xl font-bold py-3 mt-5">سفارشات </h3>
-      
+
+      <h3 className="text-center text-color2 text-xl md:text-3xl font-bold py-3 mt-5">
+        سفارشات{" "}
+      </h3>
+
       <div className="p-3">
         <div className="w-full p-3 border-2 border-color2 rounded-xl">
           <div>
             <div className="border-2 p-1 rounded-lg border-color3">
               <button
                 onClick={() => changeTab("menuList1")}
-                className={`w-1/3 text-color3 py-2 rounded-r-lg ${
+                className={`text-[11px] md:text-sm py-1 w-1/3 text-color3 md:py-2 rounded-r-lg ${
                   activeTabTop === "menuList1" ? "active-tab" : ""
                 }`}
                 style={{
@@ -408,7 +425,7 @@ export default function Professional() {
               </button>
               <button
                 onClick={() => changeTab("menuList2")}
-                className={`w-1/3 py-2 text-color3 ${
+                className={`text-[11px] md:text-sm py-1 w-1/3 md:py-2 text-color3 ${
                   activeTabTop === "menuList2" ? "active-tab" : ""
                 }`}
                 style={{
@@ -417,11 +434,11 @@ export default function Professional() {
                   color: activeTabTop === "menuList2" ? "#004225" : "",
                 }}
               >
-                 تاریخچه سفارشات
+                تاریخچه سفارشات
               </button>
               <button
                 onClick={() => changeTab("menuList3")}
-                className={`w-1/3 text-color3 py-2 rounded-l-lg ${
+                className={`text-[11px] md:text-sm py-1 w-1/3 text-color3 md:py-2 rounded-l-lg ${
                   activeTabTop === "menuList3" ? "active-tab" : ""
                 }`}
                 style={{
@@ -430,7 +447,7 @@ export default function Professional() {
                   color: activeTabTop === "menuList3" ? "#004225" : "",
                 }}
               >
-                 تاریخچه معاملات
+                تاریخچه معاملات
               </button>
             </div>
             <div className="border-2 rounded-lg mt-4 p-3">
@@ -440,7 +457,9 @@ export default function Professional() {
                     <table className="min-w-full bg-gray-100 border border-gray-300 text-center">
                       <thead className="bg-gray-700 text-color3">
                         <tr>
-                          <th className="py-3 px-4 border-b border-color2">ردیف</th>
+                          <th className="py-3 px-4 border-b border-color2">
+                            ردیف
+                          </th>
                           <th className="py-3 px-4 border-b border-color2">
                             تاریخ
                           </th>
@@ -475,31 +494,31 @@ export default function Professional() {
                             }
                           >
                             <td className="py-2 px-4 border-b">
-                            {new Intl.NumberFormat("fa-IR").format(order.id)}
-                              
-                              </td>
-                            <td className="py-2 px-4 border-b">
-                              {order.date}
-                            
-                              </td>
+                              {new Intl.NumberFormat("fa-IR").format(order.id)}
+                            </td>
+                            <td className="py-2 px-4 border-b">{order.date}</td>
                             <td className="py-2 px-4 border-b">
                               {order.product}
-                              
                             </td>
                             <td className="py-2 px-4 border-b">
-                            {new Intl.NumberFormat("fa-IR").format(order.quantity)}
-                              
+                              {new Intl.NumberFormat("fa-IR").format(
+                                order.quantity
+                              )}
                             </td>
                             <td className="py-2 px-4 border-b">
-                            {new Intl.NumberFormat("fa-IR").format(order.price)}
+                              {new Intl.NumberFormat("fa-IR").format(
+                                order.price
+                              )}
                             </td>
                             <td className="py-2 px-4 border-b">
-                            {new Intl.NumberFormat("fa-IR").format(order.total)}
-                              
+                              {new Intl.NumberFormat("fa-IR").format(
+                                order.total
+                              )}
                             </td>
                             <td className="py-2 px-4 border-b">
-                            {new Intl.NumberFormat("fa-IR").format(order.amount)}
-                            
+                              {new Intl.NumberFormat("fa-IR").format(
+                                order.amount
+                              )}
                             </td>
                             <td className="py-2 px-4 border-b">
                               <span
@@ -525,18 +544,26 @@ export default function Professional() {
                   </div>
                 </div>
               )}
-              {activeTabTop === "menuList2" && <div>
-                   <div className="flex flex-col items-center  gap-3">
-                   <img src="/img/no-data.svg" width="200px" alt="no-data" />
-                   <p className="text-color3 text-sm py-3">هیچ اطلاعاتی وجود ندارد !!</p>
-                   </div>
-                </div>}
-              {activeTabTop === "menuList3" && <div>
-              <div className="flex flex-col items-center  gap-3">
-                   <img src="/img/no-data.svg" width="200px" alt="no-data" />
-                   <p className="text-color3 text-sm py-3">هیچ اطلاعاتی وجود ندارد !!</p>
-                   </div>
-                </div>}
+              {activeTabTop === "menuList2" && (
+                <div>
+                  <div className="flex flex-col items-center  gap-3">
+                    <img src="/img/no-data.svg" width="200px" alt="no-data" />
+                    <p className="text-color3 text-sm py-3">
+                      هیچ اطلاعاتی وجود ندارد !!
+                    </p>
+                  </div>
+                </div>
+              )}
+              {activeTabTop === "menuList3" && (
+                <div>
+                  <div className="flex flex-col items-center  gap-3">
+                    <img src="/img/no-data.svg" width="200px" alt="no-data" />
+                    <p className="text-color3 text-sm py-3">
+                      هیچ اطلاعاتی وجود ندارد !!
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

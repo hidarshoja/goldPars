@@ -98,7 +98,7 @@ export const ProductModal = ({open, setOpen , selectedProduct}) => {
                     className="absolute right-4 top-4 text-gray-400 hover:text-gray-500 sm:right-6 sm:top-8 md:right-6 md:top-6 lg:right-8 lg:top-8"
                     onClick={() => setOpen(false)}
                   >
-                    <span className="sr-only">Close</span>
+                    <span className="sr-only">بستن</span>
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
 
@@ -111,7 +111,7 @@ export const ProductModal = ({open, setOpen , selectedProduct}) => {
 
                       <section aria-labelledby="information-heading" className="mt-1">
                         <h3 id="information-heading" className="sr-only">
-                          Product information
+                         محصولات
                         </h3>
 
                         <p className="font-medium text-color1">
@@ -155,7 +155,7 @@ export const ProductModal = ({open, setOpen , selectedProduct}) => {
 
                       <section aria-labelledby="options-heading" className="mt-8">
                         <h3 id="options-heading" className="sr-only">
-                          Product options
+                          محصولات
                         </h3>
 
                         <form>

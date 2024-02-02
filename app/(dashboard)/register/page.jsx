@@ -1,6 +1,43 @@
-import React from 'react'
+"use client"
+
+import React from 'react';
+import Link from 'next/link';
+import axios from 'axios';
+
 
 export default function Register() {
+  
+  const handleRegister = async () => {
+    try {
+      
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const passwordCurrent = document.getElementById("password-current");
+      const rememberMeCheckbox = document.getElementById('remember-me');
+  
+      const emailValue = emailInput.value;
+      const passwordValue = passwordInput.value;
+      const passwordCurrentValue = passwordCurrent.value;
+      const rememberMeValue = rememberMeCheckbox.checked;
+  
+      const postData = {
+        email: emailValue,
+        password: passwordValue,
+        passwordCurrent : passwordCurrentValue,
+        rememberMe: rememberMeValue,
+       
+      };
+  
+    
+      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', postData);
+  
+   
+      console.log('Response from server:', response.data);
+    } catch (error) {
+      
+      console.error('Error:', error);
+    }
+  };
   return (
     <div className="flex min-h-full flex-1 w-full h-screen">
         <div className="relative hidden  flex-1 lg:block w-1/2 bg-white">
@@ -25,9 +62,9 @@ export default function Register() {
               </h2>
               <p className="mt-2 text-sm leading-6 text-color2">
                 ثبت نام کرده اید؟
-                <a href="#" className="font-semibold text-color4 hover:text-indigo-500">
+                <Link href="/login" className="font-semibold text-color4 hover:text-indigo-500">
                  ورود
-                </a>
+                </Link>
               </p>
             </div>
 
@@ -44,8 +81,9 @@ export default function Register() {
                         name="email"
                         type="email"
                         autoComplete="email"
+                        dir='ltr'
                         required
-                        className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 pl-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
                   </div>
@@ -60,8 +98,9 @@ export default function Register() {
                         name="password"
                         type="password"
                         autoComplete="current-password"
+                        dir='ltr'
                         required
-                        className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 pl-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
                   </div>
@@ -71,12 +110,13 @@ export default function Register() {
                     </label>
                     <div className="mt-2">
                       <input
-                        id="password"
+                        id="password-current"
                         name="password"
                         type="password"
+                        dir='ltr'
                         autoComplete="current-password"
                         required
-                        className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 pl-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
                   </div>
@@ -95,18 +135,19 @@ export default function Register() {
                     </div>
 
                     <div className="text-sm leading-6">
-                      <a href="#" className="font-semibold text-color2 hover:text-indigo-500">
+                      <Link href="/forgot" className="font-semibold text-color2 hover:text-indigo-500">
                         رمز عبور خود را فراموش کرده اید؟
-                      </a>
+                      </Link>
                     </div>
                   </div>
 
                   <div>
                     <button
-                      type="submit"
-                      className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-color2 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      type="button"
+                      onClick={handleRegister}
+                      className="flex w-full justify-center rounded-md bg-color2 px-3 py-1.5 text-sm font-semibold leading-6 text-color3 shadow-sm hover:bg-yellow-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
-                      ورود
+                      ثبت نام
                     </button>
                   </div>
                 </form>

@@ -1,6 +1,9 @@
 "use client";
 
 import { Fragment, useState } from "react";
+import { toast, ToastContainer , Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
 import {
   Dialog,
   Disclosure,
@@ -15,6 +18,9 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/20/solid";
+
+
+
 
 const navigation = {
   categories: [
@@ -149,7 +155,7 @@ const breadcrumbs = [{ id: 1, name: "خانه", href: "/" }];
 const filters = [
   {
     id: "color",
-    name: "Color",
+    name: "رنگ",
     options: [
       { value: "white", label: "سفید" },
       { value: "gold", label: "طلایی" },
@@ -341,18 +347,64 @@ export default function Products() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   const handleAddToCart = (product) => {
-    alert(`محصول "${product.name}" به سبد خرید اضافه شد!`);
+    // alert(`محصول "${product.name}" به سبد خرید اضافه شد!`);
+    toast.success('محصول به سبد خرید شما اضافه شد', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      rtl: true,
+      pauseOnFocusLoss: true,
+      draggable: true,
+      pauseOnHover: true,
+      theme: "light",
+      transition: Bounce, // اینجا Bounce را استفاده کرده‌ام
+      style: { top: '43px', fontSize:"14px" } // تنظیم فاصله از بالا
+    });
   };
   //   اضافه
 
-  const [open, setOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  // const [open, setOpen] = useState(false);
+  // const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const [heartColors, setHeartColors] = useState({});
+  // const [heartColors, setHeartColors] = useState({});
   // جدید
   const [visibleBoxes, setVisibleBoxes] = useState(6);
   const boxesIncrement = 3;
   const totalBoxes = products.length;
+  const initialFormState = {};
+
+  // وضعیت اینپوت‌ها با استفاده از useState
+  const [formState, setFormState] = useState(initialFormState);
+
+  const handleInputChange = (sectionId, optionValue) => {
+    setFormState((prevState) => {
+      if (sectionId === "section1") {
+        // اگر بخش اول باشد، بررسی کنید چک باکس انتخاب شده یا نه
+        const updatedSection1 = prevState.section1.includes(optionValue)
+          ? prevState.section1.filter((value) => value !== optionValue)
+          : [...prevState.section1, optionValue];
+
+        return { ...prevState, section1: updatedSection1 };
+      }
+
+      // برای بخش‌های دیگر
+      return { ...prevState, [sectionId]: optionValue };
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "https://jsonplaceholder.typicode.com/posts",
+        formState
+      );
+      console.log("Response from server:", response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const handleButtonClick = () => {
     if (visibleBoxes + boxesIncrement <= totalBoxes) {
@@ -361,21 +413,20 @@ export default function Products() {
       setVisibleBoxes(totalBoxes);
     }
   };
-  // انتهای جدید
-  const handleClick = (productId) => {
-    setHeartColors((prevColors) => ({
-      ...prevColors,
-      [productId]: !prevColors[productId] ? "red" : "gray",
-    }));
-  };
 
-  const handleProductClick = (product) => {
-    setSelectedProduct(product);
-    setOpen(true);
-  };
-  // انتهای اضافه
-  const handleSelectChange = (selectedValue) => {
-    console.log(selectedValue);
+  const handleSelectChange = async (selectedValue) => {
+    try {
+      const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+  
+      const requestData = {
+        selectedValue: selectedValue,
+      };
+      const response = await axios.post(apiUrl, requestData);
+  
+      console.log('Response from server:', response.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -562,7 +613,6 @@ export default function Products() {
       </div>
 
       <div>
-        {/* Mobile filter dialog */}
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -724,10 +774,10 @@ export default function Products() {
                   className="p-2 border border-color1 rounded-lg bg-white"
                   onChange={(e) => handleSelectChange(e.target.value)}
                 >
-                  <option value="cheapest">ارزان‌ترین</option>
-                  <option value="most-expensive">گران‌ترین</option>
-                  <option value="newest">جدیدترین</option>
-                  <option value="best-selling">پر‌فروش‌ترین</option>
+                  <option value="ارزان">ارزان‌ترین</option>
+                  <option value="گران">گران‌ترین</option>
+                  <option value="جدید">جدیدترین</option>
+                  <option value="پرفروش">پر‌فروش‌ترین</option>
                 </select>
               </div>
             </div>
@@ -742,9 +792,7 @@ export default function Products() {
                 className="inline-flex items-center lg:hidden"
                 onClick={() => setMobileFiltersOpen(true)}
               >
-                <span className="text-sm font-medium text-gray-700">
-                  Filters
-                </span>
+                <span className="text-sm font-medium text-gray-700">فیلتر</span>
                 <PlusIcon
                   className="ml-1 h-5 w-5 flex-shrink-0 text-gray-400"
                   aria-hidden="true"
@@ -773,6 +821,9 @@ export default function Products() {
                                 name={`${section.id}[]`}
                                 defaultValue={option.value}
                                 type="checkbox"
+                                onChange={() =>
+                                  handleInputChange(section.id, option.value)
+                                }
                                 className="h-4 w-4 rounded border-gray-300 text-color2 focus:ring-indigo-500"
                               />
                               <label
@@ -788,7 +839,12 @@ export default function Products() {
                     </div>
                   ))}
                   <div className="py-2">
-                    <button className="text-color3 px-3 py-2 rounded-lg border-2 border-color2 hover:bg-color2">
+                    <button
+                      onClick={(e) => {
+                        handleSubmit(e);
+                      }}
+                      className="text-color3 px-3 py-2 rounded-lg border-2 border-color2 hover:bg-color2"
+                    >
                       اعمال فیلتر
                     </button>
                   </div>
@@ -809,7 +865,7 @@ export default function Products() {
                   <div
                     key={product.id}
                     className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
-                    onClick={() => handleAddToCart(product)}
+                    
                   >
                     <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-44 ">
                       <img
@@ -819,10 +875,23 @@ export default function Products() {
                       />
                     </div>
                     <div className="flex flex-1 flex-col space-y-2 p-4 relative">
-                      <div className="absolute top-[-20px] right-1/4 left-1/4  invisible group-hover:visible transition-opacity">
-                        <button className="border-2 cursor-pointer text-color3 px-2 bg-color1  z-20  border-color1  rounded-lg h-12 w-40 hover:bg-color1">
-                          افزودن به سبد خرید{" "}
-                        </button>
+                    
+                      <div
+                      onClick={() => handleAddToCart(product)}
+                      className="absolute top-[-60px] left-2  cursor-pointer  transition-opacity">
+                        <span className=" cursor-pointer text-color3 px-2   z-20    rounded-lg">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="28"
+                            width="28"
+                            viewBox="0 0 448 512"
+                          >
+                            <path
+                              fill="#229922"
+                              d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64v48H160V112zm-48 48H48c-26.5 0-48 21.5-48 48V416c0 53 43 96 96 96H352c53 0 96-43 96-96V208c0-26.5-21.5-48-48-48H336V112C336 50.1 285.9 0 224 0S112 50.1 112 112v48zm24 48a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm152 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"
+                            />
+                          </svg>
+                        </span>
                       </div>
                       <h3 className="text-base font-bold text-color1 text-center">
                         <span aria-hidden="true" className="absolute inset-0" />
@@ -833,18 +902,13 @@ export default function Products() {
                       </p>
                       <div className="flex flex-1 flex-col justify-end text-center">
                         <p className="text-sm italic text-color2">
-                          <span className="text-color1">
-                          وزن :
-                          </span>
-                            <span className="px-1">
+                          <span className="text-color1">وزن :</span>
+                          <span className="px-1">
                             {new Intl.NumberFormat("fa-IR").format(
                               product.options
                             )}
-                            
-                            </span>
-                            <span className="text-color1">
-                              گرم
-                            </span>
+                          </span>
+                          <span className="text-color1">گرم</span>
                         </p>
                         <p className="text-base font-medium text-color2">
                           <span className="text-color1">قیمت تقریبی :</span>
@@ -880,6 +944,20 @@ export default function Products() {
           </div>
         </main>
       </div>
+      <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+transition= 'Bounce'
+/>
+
     </div>
   );
 }

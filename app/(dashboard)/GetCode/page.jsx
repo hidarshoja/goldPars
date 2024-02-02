@@ -18,7 +18,7 @@ export default function Forgot() {
   
       const postData = {
        
-        email: emailValue,
+        code: emailValue,
        
        
       };
@@ -54,7 +54,7 @@ export default function Forgot() {
                 alt="Your Company"
               />
               <h2 className="mt-2 text-2xl font-bold leading-9 tracking-tight text-color2">
-                فراموشی رمز عبور
+                  کد یک بار مصرف
               </h2>
              
             </div>
@@ -64,15 +64,15 @@ export default function Forgot() {
                 <form action="#" method="POST" className="space-y-6">
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-color2">
-                      ایمیل
+                      کد یک بار مصرف
                     </label>
                     <div className="mt-2">
                       <input
                        dir='ltr'
                         id="email"
                         name="email"
-                        type="email"
-                        placeholder='h.....shoja@gmail.com'
+                        type="text"
+                        placeholder='0000000'
                         autoComplete="email"
                         
                         required
@@ -85,9 +85,9 @@ export default function Forgot() {
                     <button
                       type="button"
                       onClick={handleForgot}
-                      className="flex w-full justify-center rounded-md bg-color2 px-3 py-1.5 text-sm font-semibold leading-6 text-color3 shadow-sm hover:bg-yellow-6000 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      className="flex w-full justify-center rounded-md bg-color2 px-3 py-1.5 text-sm font-semibold leading-6 text-color3 shadow-sm hover:bg-yellow-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
-                      بازیابی کلمه عبور
+                        ارسال کد یک بار مصرف
                     </button>
                   </div>
                 </form>
