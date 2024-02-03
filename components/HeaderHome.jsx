@@ -5,8 +5,8 @@ import {
   NewspaperIcon,
   PhoneIcon,
 } from "@heroicons/react/20/solid";
-import { useState ,useEffect } from "react";
-
+import { useState } from "react";
+import Link from "next/link";
 import axios from "axios";
 
 const cards = [
@@ -30,22 +30,26 @@ const cards = [
   },
 ];
 
-
-
 export default function HeaderHome() {
   const [activeTab, setActiveTab] = useState("buy");
   const [price, setPrice] = useState("");
   const [gram, setGram] = useState("");
   const [priceSell, setPriceSell] = useState("");
   const [gramSell, setGramSell] = useState("");
+  const [priceBuy , setPriceBuy] = useState(29502000);
+  const [priceSellGold , setPriceSellGold] = useState(29500000);
 
   const handleBuyButtonClick = async () => {
     try {
       const dataToSend = {
         price,
         gram,
+        priceBuy
       };
-      const response = await axios.post("https://jsonplaceholder.typicode.com/posts", dataToSend);
+      const response = await axios.post(
+        "https://jsonplaceholder.typicode.com/posts",
+        dataToSend
+      );
 
       console.log("Server Response:", response.data);
     } catch (error) {
@@ -57,19 +61,38 @@ export default function HeaderHome() {
       const dataToSend = {
         priceSell,
         gramSell,
+        priceSellGold
       };
-      const response = await axios.post("https://jsonplaceholder.typicode.com/posts", dataToSend);
+      const response = await axios.post(
+        "https://jsonplaceholder.typicode.com/posts",
+        dataToSend
+      );
 
       console.log("Server Response:", response.data);
     } catch (error) {
       console.error("Error sending data:", error);
     }
   };
- 
 
   const handleButtonClick = (tab) => {
     setActiveTab(tab);
   };
+ 
+  const handlePriceChange = (e) => {
+    const inputPrice = e.target.value;
+    setPrice(inputPrice);
+    const calculatedGram = inputPrice / priceBuy;
+    setGram(calculatedGram);
+  };
+
+  const handleSellPriceChange = (e) => {
+    const inputPrice = e.target.value;
+    setGramSell(inputPrice);
+    const calculatedGram = inputPrice * priceSellGold;
+    setPriceSell(calculatedGram);
+    
+  };
+
   return (
     <div
       className="relative isolate overflow-hidden bg-color1 py-24 sm:py-32 w-full"
@@ -104,12 +127,14 @@ export default function HeaderHome() {
               زرگر
             </p>
             <div className="w-full flex items-center justify-center mt-3">
-              <button
-                type="button"
-                className="flex w-[200px] items-center justify-center rounded bg-green-600 px-6 py-3 text-xs  text-color2"
-              >
-                همین الان شروع کنید !
-              </button>
+              <Link href="/login">
+                <button
+                  type="button"
+                  className="flex w-[200px] items-center justify-center rounded bg-green-600 px-6 py-3 text-xs  text-color2"
+                >
+                  همین الان شروع کنید !
+                </button>
+              </Link>
             </div>
           </div>
           <div className="w-full md:w-2/3 flex items-center justify-end mt-8 md:mt-0">
@@ -118,8 +143,8 @@ export default function HeaderHome() {
                 <div className="flex flex-col gap-1 items-center justify-center py-2">
                   <p className="text-color2">قیمت خرید</p>
                   <p className="text-sm text-green-600">
-                  <span>
-                      {new Intl.NumberFormat("fa-IR").format(29502000)}
+                    <span>
+                      {new Intl.NumberFormat("fa-IR").format(priceBuy)}
                     </span>
                     <span className="px-2">تومان</span>
                   </p>
@@ -131,7 +156,7 @@ export default function HeaderHome() {
                   <p className="text-color2">قیمت فروش</p>
                   <p className="text-sm text-red-600">
                     <span>
-                      {new Intl.NumberFormat("fa-IR").format(29302000)}
+                      {new Intl.NumberFormat("fa-IR").format(priceSellGold)}
                     </span>
                     <span className="px-2">تومان</span>
                   </p>
@@ -169,17 +194,17 @@ export default function HeaderHome() {
                       </label>
                       <div className="relative mt-2 rounded-md shadow-sm">
                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                          <span className="text-color1 sm:text-sm">ریال</span>
+                          <span className="text-color1 sm:text-sm">تومان</span>
                         </div>
                         <input
-                          type="text"
+                          type="number"
                           name="price"
                           id="price"
                           className="block w-full rounded-md border-0 py-1.5 pl-7 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          placeholder="مقدار را به ریال وارد کنید"
+                          placeholder="مقدار را به تومان وارد کنید"
                           aria-describedby="price-currency"
                           value={price}
-                          onChange={(e) => setPrice(e.target.value)}
+                          onChange={handlePriceChange}
                         />
                       </div>
                     </div>
@@ -201,7 +226,7 @@ export default function HeaderHome() {
                           className="block w-full rounded-md border-0 py-1.5 pl-7 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           placeholder="مقدار طلا را به گرم وارد کنید"
                           aria-describedby="price-currency"
-                          value={gram}
+                          value={gram !== null ? gram : ''}
                           onChange={(e) => setGram(e.target.value)}
                         />
                       </div>
@@ -238,8 +263,9 @@ export default function HeaderHome() {
                             className="block w-full rounded-md border-0 py-1.5 pl-7 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             placeholder="مقدار طلا را به گرم وارد کنید"
                             aria-describedby="price-currency"
-                            value={gramSell}
-                            onChange={(e) => setGramSell(e.target.value)}
+                          
+                            value={gramSell !== null ? gramSell : ''}
+                            onChange={handleSellPriceChange}
                           />
                         </div>
                       </div>

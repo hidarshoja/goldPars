@@ -3,6 +3,7 @@
 import { Fragment, useState , useEffect } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import axios from "axios";
+import Link from "next/link";
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
@@ -317,7 +318,7 @@ export default function Cart() {
                                   className="object-cover object-center"
                                 />
                               </div>
-                              <a
+                              <Link
                                 href={item.href}
                                 className="mt-6 block font-medium text-gray-900"
                               >
@@ -326,7 +327,7 @@ export default function Cart() {
                                   aria-hidden="true"
                                 />
                                 {item.name}
-                              </a>
+                              </Link>
                               <p aria-hidden="true" className="mt-1">
                                 Shop now
                               </p>
@@ -348,12 +349,12 @@ export default function Cart() {
                             >
                               {section.items.map((item) => (
                                 <li key={item.name} className="flow-root">
-                                  <a
+                                  <Link
                                     href={item.href}
                                     className="-m-2 block p-2 text-gray-500"
                                   >
                                     {item.name}
-                                  </a>
+                                  </Link>
                                 </li>
                               ))}
                             </ul>
@@ -367,37 +368,37 @@ export default function Cart() {
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   {navigation.pages.map((page) => (
                     <div key={page.name} className="flow-root">
-                      <a
+                      <Link
                         href={page.href}
                         className="-m-2 block p-2 font-medium text-gray-900"
                       >
                         {page.name}
-                      </a>
+                      </Link>
                     </div>
                   ))}
                 </div>
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
-                    <a
+                    <Link
                       href="#"
                       className="-m-2 block p-2 font-medium text-gray-900"
                     >
                       Sign in
-                    </a>
+                    </Link>
                   </div>
                   <div className="flow-root">
-                    <a
+                    <Link
                       href="#"
                       className="-m-2 block p-2 font-medium text-gray-900"
                     >
                       Create account
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
                 <div className="border-t border-gray-200 px-4 py-6">
-                  <a href="#" className="-m-2 flex items-center p-2">
+                  <Link href="#" className="-m-2 flex items-center p-2">
                     <img
                       src="https://tailwindui.com/img/flags/flag-canada.svg"
                       alt=""
@@ -407,7 +408,7 @@ export default function Cart() {
                       CAD
                     </span>
                     <span className="sr-only">, change currency</span>
-                  </a>
+                  </Link>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -421,7 +422,7 @@ export default function Cart() {
             سبد خرید  
           </h1>
           <div className="ml-4 flow-root lg:ml-6">
-            <a href="#" className="group -m-2 flex items-center p-2">
+            <Link href="#" className="group -m-2 flex items-center p-2">
               <ShoppingBagIcon
                 className="h-6 w-6 flex-shrink-0 text-color2 group-hover:text-color3"
                 aria-hidden="true"
@@ -430,7 +431,7 @@ export default function Cart() {
                 3
               </span>
               <span className="sr-only">تعداد محصولات سبد خرید </span>
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -459,12 +460,12 @@ export default function Cart() {
                       <div>
                         <div className="flex justify-between">
                           <h3 className="text-sm">
-                            <a
+                            <Link
                               href={product.href}
                               className="font-medium text-color2 hover:text-color3"
                             >
                               {product.name}
-                            </a>
+                            </Link>
                           </h3>
                         </div>
                         <div className="mt-1 flex text-sm">

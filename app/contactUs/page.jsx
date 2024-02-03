@@ -2,6 +2,7 @@
 import { BuildingOffice2Icon, EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import axios from 'axios';
+import Link from 'next/link';
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
@@ -99,9 +100,9 @@ export default function ContactUs() {
                   <PhoneIcon className="h-7 w-6 text-color3" aria-hidden="true" />
                 </dt>
                 <dd>
-                  <a className="hover:text-color2" href="tel:+1 (555) 234-5678">
+                  <Link className="hover:text-color2" href="tel:+1 (555) 234-5678">
                    021-4596780021
-                  </a>
+                  </Link>
                 </dd>
               </div>
               <div className="flex gap-x-4">
@@ -110,9 +111,9 @@ export default function ContactUs() {
                   <EnvelopeIcon className="h-7 w-6 text-color3" aria-hidden="true" />
                 </dt>
                 <dd>
-                  <a className="hover:text-color2" href="mailto:hello@example.com">
+                  <Link className="hover:text-color2" href="mailto:hello@example.com">
                     hello@example.com
-                  </a>
+                  </Link>
                 </dd>
               </div>
             </dl>

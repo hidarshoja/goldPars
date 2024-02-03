@@ -50,10 +50,10 @@ const people = [
 ];
 
 export default function Sell() {
-
+  const [data, setData] = useState([]);
   const [priceGold, setPriceGold] = useState(29000000);
   const [gramGold, setGramGold] = useState("");
-  const [amount, setAmount] = useState("");
+  const [wallet, setWallet] = useState(0);
   const [totalPrice, setTotalPrice] = useState("");
 
   const handleGramChange = (e) => {
@@ -65,6 +65,37 @@ export default function Sell() {
       setTotalPrice(parsedValue * priceGold);
     }
   };
+
+  const handlePurchase = async () => {
+    const data = {
+      gramGold,
+      totalPrice,
+      priceGold,
+      wallet
+    };
+  
+    try {
+      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', data);
+      console.log('Response:', response.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://jsonplaceholder.typicode.com/posts/1");
+      setData(response.data);
+      console.log(" اطلاعات جدول ابدیت شد" , response.data);
+      //data = response.data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleButtonClick = (value) => {
     setGramGold((prevAmount) => {
@@ -182,12 +213,14 @@ export default function Sell() {
             موجودی کیف پول :{" "}
             <span className="px-1 text-color2">
               {" "}
-              {new Intl.NumberFormat("fa-IR").format(0)}{" "}
+              {new Intl.NumberFormat("fa-IR").format(wallet)}{" "}
             </span>
             ریال
           </p>
           <div className="w-full mt-3">
-            <button className="w-full rounded-lg py-2 bg-color2 text-color3 border-2 border-color2 hover:bg-color3 hover:text-color2">
+            <button 
+             onClick={handlePurchase}
+            className="w-full rounded-lg py-2 bg-color2 text-color3 border-2 border-color2 hover:bg-color3 hover:text-color2">
               خرید{" "}
             </button>
           </div>

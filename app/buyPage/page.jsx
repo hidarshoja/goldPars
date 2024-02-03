@@ -53,7 +53,7 @@ export default function Buy() {
   const [data, setData] = useState([]);
   const [priceGold, setPriceGold] = useState(29000000);
   const [gramGold, setGramGold] = useState("");
-   const [amount, setAmount] = useState("");
+  const [wallet, setWallet] = useState(0);
   const [totalPrice, setTotalPrice] = useState("");
 
   const handleGramChange = (e) => {
@@ -82,6 +82,8 @@ export default function Buy() {
     });
   };
 
+  
+
   const fetchData = async () => {
     try {
       const response = await axios.get("https://jsonplaceholder.typicode.com/posts/1");
@@ -101,6 +103,8 @@ export default function Buy() {
       const response = await axios.post("https://jsonplaceholder.typicode.com/posts", {
         gramGold,
         totalPrice,
+        priceGold,
+        wallet
       });
       console.log(response.data);
     } catch (error) {
@@ -117,8 +121,9 @@ export default function Buy() {
           <p className="text-color3">خرید طلای آب شده </p>
           <p className="text-color3">
             <span>قیمت :</span>
+
             <span className="text-color2 text-sm">
-            {new Intl.NumberFormat('fa-IR').format(29100000)}
+            {new Intl.NumberFormat('fa-IR').format(priceGold)}
                </span>
             <span>ریال</span>
           </p>
@@ -206,7 +211,7 @@ export default function Buy() {
           </div>
           <p className="text-color3 mt-3 text-sm flex items-center justify-start">
             {" "}
-            موجودی کیف پول : <span className="px-1 text-color2">  {new Intl.NumberFormat('fa-IR').format(0)} </span>ریال
+            موجودی کیف پول : <span className="px-1 text-color2">  {new Intl.NumberFormat('fa-IR').format(wallet)} </span>ریال
           </p>
           <div className="w-full mt-3">
             <button

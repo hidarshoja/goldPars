@@ -2,6 +2,7 @@
 
 import { useState , useEffect } from 'react';
 import axios from 'axios';
+import Link from 'next/link';
 
 
 const jobOpenings = [
@@ -146,13 +147,13 @@ export default function Blog() {
                       <dl className="relative flex flex-wrap gap-x-3">
                         <dt className="sr-only">Role</dt>
                         <dd className="w-full flex-none text-lg font-semibold tracking-tight text-color2">
-                          <a href={opening.href}>
+                          <Link href={opening.href}>
                             {opening.role}
                             <span
                               className="absolute inset-0"
                               aria-hidden="true"
                             />
-                          </a>
+                          </Link>
                         </dd>
                         <dt className="sr-only">Description</dt>
                         <dd className="mt-2 w-full flex-none text-base leading-7 text-color3">
@@ -223,10 +224,10 @@ export default function Blog() {
                   </time>
                 </div>
                 <h3 className="mt-3 text-lg font-semibold leading-6 text-white">
-                  <a href={post.href}>
+                  <Link href={post.href}>
                     <span className="absolute inset-0" />
                     {post.title}
-                  </a>
+                  </Link>
                 </h3>
               </article>
             ))}

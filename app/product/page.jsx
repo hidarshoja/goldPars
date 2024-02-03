@@ -1,9 +1,10 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useState , useEffect } from "react";
 import { toast, ToastContainer , Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
+import Link from "next/link";
 import {
   Dialog,
   Disclosure,
@@ -345,7 +346,7 @@ function classNames(...classes) {
 export default function Products() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-
+  const [data, setData] = useState([]);
   const handleAddToCart = (product) => {
     // alert(`محصول "${product.name}" به سبد خرید اضافه شد!`);
     toast.success('محصول به سبد خرید شما اضافه شد', {
@@ -358,8 +359,8 @@ export default function Products() {
       draggable: true,
       pauseOnHover: true,
       theme: "light",
-      transition: Bounce, // اینجا Bounce را استفاده کرده‌ام
-      style: { top: '43px', fontSize:"14px" } // تنظیم فاصله از بالا
+      transition: Bounce, 
+      style: { top: '43px', fontSize:"14px" } 
     });
   };
   //   اضافه
@@ -428,6 +429,20 @@ export default function Products() {
       console.error('Error:', error);
     }
   };
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://jsonplaceholder.typicode.com/posts/1");
+      setData(response.data);
+      console.log("  محصولات به روز شد" , response.data);
+      //data = response.data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="bg-color1 mt-[130px]" dir="rtl">
@@ -513,7 +528,7 @@ export default function Products() {
                                     className="object-cover object-center"
                                   />
                                 </div>
-                                <a
+                                <Link
                                   href={item.href}
                                   className="mt-6 block font-medium text-gray-900"
                                 >
@@ -522,7 +537,7 @@ export default function Products() {
                                     aria-hidden="true"
                                   />
                                   {item.name}
-                                </a>
+                                </Link>
                                 <p aria-hidden="true" className="mt-1">
                                   Shop now
                                 </p>
@@ -544,12 +559,12 @@ export default function Products() {
                               >
                                 {section.items.map((item) => (
                                   <li key={item.name} className="flow-root">
-                                    <a
+                                    <Link
                                       href={item.href}
                                       className="-m-2 block p-2 text-color2"
                                     >
                                       {item.name}
-                                    </a>
+                                    </Link>
                                   </li>
                                 ))}
                               </ul>
@@ -563,37 +578,37 @@ export default function Products() {
                   <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                     {navigation.pages.map((page) => (
                       <div key={page.name} className="flow-root">
-                        <a
+                        <Link
                           href={page.href}
                           className="-m-2 block p-2 font-medium text-color2"
                         >
                           {page.name}
-                        </a>
+                        </Link>
                       </div>
                     ))}
                   </div>
 
                   <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                     <div className="flow-root">
-                      <a
-                        href="#"
+                      <Link
+                        href="/login"
                         className="-m-2 block p-2 font-medium text-color2"
                       >
                         ورود
-                      </a>
+                      </Link>
                     </div>
                     <div className="flow-root">
-                      <a
+                      <Link
                         href="#"
                         className="-m-2 block p-2 font-medium text-gray-900"
                       >
                         Create account
-                      </a>
+                      </Link>
                     </div>
                   </div>
 
                   <div className="border-t border-gray-200 px-4 py-6">
-                    <a href="#" className="-m-2 flex items-center p-2">
+                    <Link href="#" className="-m-2 flex items-center p-2">
                       <img
                         src="https://tailwindui.com/img/flags/flag-canada.svg"
                         alt=""
@@ -603,7 +618,7 @@ export default function Products() {
                         CAD
                       </span>
                       <span className="sr-only">, change currency</span>
-                    </a>
+                    </Link>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
@@ -726,12 +741,12 @@ export default function Products() {
               {breadcrumbs.map((breadcrumb) => (
                 <li key={breadcrumb.id}>
                   <div className="flex items-center">
-                    <a
+                    <Link
                       href={breadcrumb.href}
                       className="ml-4 text-sm font-medium text-color2"
                     >
                       {breadcrumb.name}
-                    </a>
+                    </Link>
                     <svg
                       viewBox="0 0 6 20"
                       aria-hidden="true"
@@ -746,13 +761,13 @@ export default function Products() {
                 </li>
               ))}
               <li className="text-sm">
-                <a
+                <Link
                   href="#"
                   aria-current="page"
                   className="font-medium text-color2 mr-3"
                 >
                   محصولات
-                </a>
+                </Link>
               </li>
             </ol>
           </nav>

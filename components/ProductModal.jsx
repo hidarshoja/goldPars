@@ -6,6 +6,7 @@ import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { StarIcon } from '@heroicons/react/20/solid';
 import axios from 'axios';
+import Link from 'next/link'
 
 const product = {
   name: "Women's Basic Tee",
@@ -144,10 +145,10 @@ export const ProductModal = ({open, setOpen , selectedProduct}) => {
                               <span className="text-gray-300" aria-hidden="true">
                                 &middot;
                               </span>
-                              <a href="#" className="ml-4 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                              <Link href="#" className="ml-4 text-sm font-medium text-indigo-600 hover:text-indigo-500">
                                 {/* See all {product.reviewCount} reviews */}
                                 تعداد تمام نظرات {product.reviewCount}
-                              </a>
+                              </Link>
                             </div>
                           </div>
                         </div>
@@ -199,9 +200,9 @@ export const ProductModal = ({open, setOpen , selectedProduct}) => {
                           <div className="mt-8">
                             <div className="flex items-center justify-between">
                               <h4 className="text-sm font-medium text-color2">سایز</h4>
-                              <a href="#" className="text-sm font-medium text-color2">
+                              <Link href="#" className="text-sm font-medium text-color2">
                              انتخاب سایز
-                              </a>
+                              </Link>
                             </div>
 
                             <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-2">
